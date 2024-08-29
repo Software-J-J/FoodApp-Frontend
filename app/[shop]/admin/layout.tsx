@@ -1,5 +1,5 @@
-import NavBar from '@/app/ui/admin/nav-bar'
-import { Sidenav } from '@/app/ui/admin/sidenav'
+import NavBar from '@/components/admin/nav-bar'
+import { Sidenav } from '@/components/admin/sidenav'
 import { Metadata } from 'next'
 import React from 'react'
 

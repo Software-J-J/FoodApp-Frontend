@@ -1,8 +1,8 @@
-import Inventory from '@/app/ui/admin/inventory'
-import Title from '@/app/ui/admin/title'
+import Inventory from '@/components/admin/inventory'
+import Title from '@/components/admin/title'
 import React from 'react'
 
-import { simonPostres } from '@/app/tempData/simon-postres'
+import { simonPostres } from '@/tempData/simon-postres'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 

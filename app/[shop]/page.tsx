@@ -1,6 +1,6 @@
-import { manrope } from '@/app/ui/fonts'
+import { manrope } from '@/components/shared/fonts'
 
-import { database } from '../tempData/fakeDb'
+import { database } from '../../tempData/fakeDb'
 import Image from 'next/image'
 
 import Link from 'next/link'

@@ -1,7 +1,7 @@
-import { manrope } from '@/app/ui/fonts'
+import { manrope } from '@/components/shared/fonts'
 
 import Link from 'next/link'
-import { Button } from './ui/button'
+import { Button } from '../components/shared/button'
 
 export default function Home() {
   return (

@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
-import { createProduct } from '@/app/lib/actions'
-import Title from '@/app/ui/admin/title'
-import CreateCategory from '@/app/ui/admin/create-category'
+import { createProduct } from '@/libs/actions'
+import Title from '@/components/admin/title'
+import CreateCategory from '@/components/admin/create-category'
 
 const categories = [{ id: 1, title: 'Chocolate' }]
 

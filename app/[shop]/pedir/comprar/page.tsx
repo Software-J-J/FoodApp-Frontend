@@ -1,13 +1,13 @@
 'use client'
 
-import Search from '@/app/ui/search'
+import Search from '@/components/shared/search'
 import Image from 'next/image'
-import Container from '@/app/ui/products/container'
+import Container from '@/components/products/container'
 
-import { database } from '@/app/tempData/fakeDb'
+import { database } from '@/tempData/fakeDb'
 import { Suspense, useEffect, useState } from 'react'
-import { DataBussiness } from '@/app/lib/types'
-import HeaderMain from '@/app/ui/products/header-main'
+import { DataBussiness } from '@/libs/types'
+import HeaderMain from '@/components/products/header-main'
 
 export default function Page() {
   // const [data, setData] = useState<DataBussiness>()
