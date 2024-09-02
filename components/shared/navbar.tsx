@@ -1,8 +1,11 @@
+'use client'
+
 import { Bars3Icon, ShoppingCartIcon } from '@heroicons/react/24/outline'
 
 import { Session } from 'next-auth'
 import { Button } from '../ui/button'
 import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 
 interface Props {
   session: Session | null
@@ -26,6 +29,7 @@ export default function Navbar({ session }: Props) {
       {session?.user ? (
         <div className="w-1/4">
           <h2>Loggeado como {session?.user?.name}</h2>
+          <Button onClick={() => signOut()}>Log out</Button>
         </div>
       ) : (
         <div className="w-1/4">

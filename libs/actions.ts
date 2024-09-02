@@ -1,7 +1,9 @@
 'use server'
 
+import axios from 'axios'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { Product } from './types'
 
 const FormSchema = z.object({
   id: z.string(),
@@ -92,6 +94,8 @@ export async function crearOrden(formData: FormData) {
   redirect('/simon-postres/order/success')
 }
 
+// CON BACKEND
+
 export async function createProduct(formData: FormData) {
   const rawFormData = {
     name: formData.get('name'),
@@ -103,16 +107,22 @@ export async function createProduct(formData: FormData) {
 
   const { name, description, price, image, category } = rawFormData
 
-  console.log(
-    `Producto ${name} creado! Precio: ${price}, categoria: ${category}`
-  )
-  redirect('/simon-postres/admin/menues')
-}
+  // * VALIDACION DE INFORMACION ETC*
 
-// id: number
-//   name: string
-//   description: string
-//   price: number
-//   image: string
-//   category: string
-//   available: boolean
+  const data = {
+    name: name,
+    description: description,
+    price: price,
+    image: image,
+    category: category,
+  }
+
+  try {
+    const response = await axios.post('/api/products', data, {
+      headers: { 'Content-Type': 'application/json' },
+    })
+    redirect('/simon-postres/admin/menues')
+  } catch (error) {
+    console.error('ups :s', error)
+  }
+}
