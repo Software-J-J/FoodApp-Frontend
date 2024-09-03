@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
           const { user, token } = response.data
 
           if (user && token) {
-            return { ...user, token }
+            return { ...user, accessToken: token }
           } else {
             return null
           }
@@ -40,27 +40,11 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
   },
   callbacks: {
-    // async jwt({ token, user }) {
-    //     if (user) {
-    //         token.id = user.id
-    //         token.email = user.email
-    //         token.name = user.name
-    //         token.token = user.token
-    //     }
-    //     return token
-    // },
-    // async session({ session, token }) {
-    //     if (token) {
-    //         session.user = {
-    //             id: token.id as string,
-    //             email: token.email as string
-    //         }
-    //     }
-    // }
     async jwt({ token, user }) {
       if (user) {
         token.name = user.name
         token.email = user.email
+        token.accessToken = user.accessToken
       }
 
       if (user) {
@@ -74,6 +58,9 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
+      if (token) {
+        session.accessToken = token.accessToken as string
+      }
       return {
         ...session,
         user: {

@@ -24,7 +24,7 @@ export const simonPostres: DataBussiness = {
       price: 1500,
       image: '/simpo/alfmaicena.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 2,
@@ -34,7 +34,7 @@ export const simonPostres: DataBussiness = {
       price: 2000,
       image: '/simpo/chocotor.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 3,
@@ -43,7 +43,7 @@ export const simonPostres: DataBussiness = {
       price: 1800,
       image: '/simpo/mousseddl.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 4,
@@ -52,7 +52,7 @@ export const simonPostres: DataBussiness = {
       price: 1200,
       image: '/simpo/flan-de-dulce-de-leche-foto-prin.png',
       category: 'Postres',
-      available: false,
+      status: false,
     },
     {
       id: 5,
@@ -61,7 +61,7 @@ export const simonPostres: DataBussiness = {
       price: 1600,
       image: '/simpo/lemon-pie-clasica-con-tips-foto.png',
       category: 'Postres',
-      available: false, // Ejemplo de un postre no available
+      status: false, // Ejemplo de un postre no status
     },
     {
       id: 6,
@@ -71,7 +71,7 @@ export const simonPostres: DataBussiness = {
       price: 2500,
       image: '/simpo/torta-rogel-facil-y-sin-horno-fo.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 7,
@@ -80,7 +80,7 @@ export const simonPostres: DataBussiness = {
       price: 1800,
       image: '/simpo/pastafrola-foto-principal.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 8,
@@ -90,7 +90,7 @@ export const simonPostres: DataBussiness = {
       price: 1500,
       image: '/simpo/budin-de-pan-tradicional-clasico.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 9,
@@ -99,7 +99,7 @@ export const simonPostres: DataBussiness = {
       price: 1200,
       image: '/simpo/arroz-con-leche-me-quiero-casar.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
     {
       id: 10,
@@ -108,7 +108,7 @@ export const simonPostres: DataBussiness = {
       price: 1300,
       image: '/simpo/flan-de-dulce-de-leche-mixto-fot.png',
       category: 'Postres',
-      available: true,
+      status: true,
     },
   ],
 }

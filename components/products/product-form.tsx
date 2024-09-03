@@ -1,8 +1,15 @@
 'use client'
 
+// PENDIENTES PARA HACER EN ESTE FORM
+// - Extraer el token del authSession === DONE
+// - Migrar la funcion del handleSubmit a actions.ts & api/products/route.ts
+// - Componetizar el input de image por algo mas estilizado
+// - Que al submitear se limpie el form y muestre un cartel de Done, volver a menu? Agregar otro producto
+
 import { useState } from 'react'
 import { Button } from '../ui/button'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 interface FormData {
   name: string
@@ -12,9 +19,9 @@ interface FormData {
   image: File | null
 }
 
-let token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ2YzE4YTJkLThlN2EtNDA2NS05NzBkLTgwMDFhNzdlMjQ0MCIsImVtYWlsIjoiTWFyaWFAZ21haWwuY29tIiwibmFtZSI6Ik1hcmlhIiwicGhvbmUiOiIxMjM0NTYiLCJhZGRyZXNzIjoiQ2VydmFudGVzIDE2IiwiZGVsaXZlcnlNZXRob2QiOm51bGwsInN0YXR1cyI6dHJ1ZSwicm9sZXMiOlsiVVNFUiJdLCJjcmVhdGVkQXQiOiIyMDI0LTA4LTI4VDE3OjMxOjEyLjcyNloiLCJ1cGRhdGVkQXQiOiIyMDI0LTA4LTI4VDE3OjMxOjEyLjcyNloiLCJpYXQiOjE3MjUzMTQ5MTYsImV4cCI6MTcyNTMyOTMxNn0.BrP9V1WcmpKIqpMJlUQALOuBKGIuXucillOx6wdyWGo'
 export default function ProductForm() {
+  const { data: session, status } = useSession()
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     description: '',
@@ -24,6 +31,16 @@ export default function ProductForm() {
   })
 
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+
+  if (status === 'loading') {
+    return <p>Loading...</p>
+  }
+
+  if (!session) {
+    return <p>Not signed in</p>
+  }
+
+  const token = session?.accessToken
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -44,7 +61,6 @@ export default function ProductForm() {
     const file = e.target.files?.[0]
 
     if (file) {
-      console.log('Archivo seleccionado:', file)
       setFormData((prevData) => ({
         ...prevData,
         image: file,
@@ -61,6 +77,7 @@ export default function ProductForm() {
 
     // console.log de los valores cargados al form y guardados en el estado local
     console.log('Datos del formulario:', formData)
+    console.log(token)
 
     //validacion data del form
     const formDataTwo = new FormData()

@@ -42,12 +42,12 @@ export type ProductCartContextType = {
 // TYPADO DE BACKEND
 
 export type Product = {
-  id: string
+  id: string | number
   name: string
   description: string
   price: number
   image: string
-  category: number
+  category: string | number
   status: boolean
 
   createdAt: Date

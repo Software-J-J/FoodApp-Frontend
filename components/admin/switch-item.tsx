@@ -6,9 +6,9 @@ import { useState } from 'react'
 import { Product } from '@/libs/types'
 
 export const SwitchAvailable = ({ item }: { item: Product }) => {
-  const { id, name, available } = item
+  const { id, name, status } = item
 
-  const [availableValue, setAvailableValue] = useState(available)
+  const [availableValue, setAvailableValue] = useState(status)
 
   const handleAvailable = () => {
     setAvailableValue(!availableValue)
