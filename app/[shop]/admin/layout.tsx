@@ -1,5 +1,5 @@
-import NavBar from '@/app/ui/admin/nav-bar'
-import { Sidenav } from '@/app/ui/admin/sidenav'
+import NavBar from '@/components/admin/nav-bar'
+import { Sidenav } from '@/components/admin/sidenav'
 import { Metadata } from 'next'
 import React from 'react'
 
@@ -14,9 +14,11 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col md:flex-row md:overflow-hidden relative">
+    <main className="flex h-screen flex-col md:flex-row md:overflow-hidden relative">
       <NavBar />
-      <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-    </div>
+      <section className="flex-grow p-6 md:overflow-y-auto md:p-12">
+        {children}
+      </section>
+    </main>
   )
 }

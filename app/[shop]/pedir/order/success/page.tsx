@@ -1,5 +1,5 @@
-import { Button } from '@/app/ui/button'
-import { manrope } from '@/app/ui/fonts'
+import { Button } from '@/components/shared/button'
+import { manrope } from '@/components/shared/fonts'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import React from 'react'

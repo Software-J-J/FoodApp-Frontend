@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import { database } from '../tempData/fakeDb'
+import { database } from '../../tempData/fakeDb'
 
 const { name } = database.simonPostres
 

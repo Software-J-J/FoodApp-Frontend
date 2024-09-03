@@ -1,6 +1,6 @@
-import { manrope } from '@/app/ui/fonts'
-import FormClient from '@/app/ui/order/form-client'
-import TempForm from '@/app/ui/order/temp-form'
+import { manrope } from '@/components/shared/fonts'
+import FormClient from '@/components/order/form-client'
+import TempForm from '@/components/order/temp-form'
 
 export default function page() {
   return (
