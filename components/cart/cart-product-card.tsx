@@ -7,19 +7,19 @@ import { useContext, useState } from 'react'
 import { CartContext } from '../../context/AppContext'
 
 export default function CartProductCard({ product }: { product: Product }) {
-  const [displayQuantity, setDisplayQuantity] = useState(product.quantity)
+  const [displayQuantity, setDisplayQuantity] = useState(2)
   const { addToCart, removeCartProduct } = useContext(
     CartContext
   ) as ProductCartContextType
   const handleAddToCartButtonClick = () => {
     addToCart(product)
-    setDisplayQuantity(product.quantity!)
+    setDisplayQuantity(2)
   }
 
   const handleRemoveCartProductButtonClick = () => {
-    removeCartProduct(product.id)
+    removeCartProduct(+product.id)
 
-    setDisplayQuantity(product.quantity!)
+    setDisplayQuantity(2)
   }
 
   return (
@@ -29,7 +29,7 @@ export default function CartProductCard({ product }: { product: Product }) {
     >
       <div className="max-w-1/5 content-center items-center">
         <Image
-          src={product.imagen}
+          src={product.image}
           height={64}
           width={64}
           alt="product"
@@ -37,12 +37,12 @@ export default function CartProductCard({ product }: { product: Product }) {
         />
       </div>
       <div className="flex flex-col justify-center w-2/5 ">
-        <h1 className="text-base font-medium">{product.nombre}</h1>
+        <h1 className="text-base font-medium">{product.name}</h1>
         <p className="text-base font-medium text-gray-400">
-          {product.descripcion.substring(0, 16)}
+          {product.description.substring(0, 16)}
         </p>
         <p className="text-xl font-extrabold">
-          ${product.precio} <em className="text-sm text-gray-400">c/u</em>
+          ${product.price} <em className="text-sm text-gray-400">c/u</em>
         </p>
       </div>
       <div className="flex grid-cols-3 gap-1 justify-center items-center w-1/5">

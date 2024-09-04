@@ -17,7 +17,7 @@ export default function SubTotal() {
   useEffect(() => {
     const calculateTotal = () => {
       const newTotal = cartProducts.reduce((acc, product) => {
-        return acc + product.precio * product.quantity!
+        return acc + product.price * 2
       }, 0)
       setTotal(newTotal)
     }

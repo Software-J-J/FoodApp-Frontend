@@ -5,8 +5,6 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
 const currentLink = 'simon-postres'
 
 const links = [
@@ -21,6 +19,10 @@ const links = [
   {
     name: 'Bandeja de entrada',
     href: `/${currentLink}/admin/inbox`,
+  },
+  {
+    name: 'Local',
+    href: '#',
   },
 ]
 

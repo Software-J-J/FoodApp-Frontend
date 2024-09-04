@@ -11,13 +11,8 @@ export default function Filters() {
           defaultValue={'none'}
         >
           <option value="none" disabled hidden>
-            {tipoFiltro.titulo}
+            {tipoFiltro.name}
           </option>
-          {tipoFiltro.opciones.map((c, _idx) => (
-            <option key={_idx} value={c.valor}>
-              {c.label}
-            </option>
-          ))}
         </select>
       ))}
     </section>
