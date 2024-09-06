@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import React from 'react'
 
 export function PediloLogo() {
@@ -10,8 +11,10 @@ export function PediloLogo() {
 
 export function PediloLogoNav() {
   return (
-    <div className="bg-red-500 p-1 text-white font-serif rounded-md border border-black">
-      <h1 className="text-xl font-bold">Pedilo App</h1>
-    </div>
+    <Link href={'/'}>
+      <div className="bg-red-500 p-1 text-white font-serif rounded-md border border-black">
+        <h1 className="text-xl font-bold">Pedilo App</h1>
+      </div>
+    </Link>
   )
 }

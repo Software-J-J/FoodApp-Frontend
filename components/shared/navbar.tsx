@@ -1,12 +1,10 @@
 'use client'
 
-import { Bars3Icon, ShoppingCartIcon } from '@heroicons/react/24/outline'
-
 import { Session } from 'next-auth'
-import { Button } from '../ui/button'
 
 import { PediloLogoNav } from './pedilo-logo'
 import SessionMenu from './session-menu'
+import { Sidenav } from '../admin/sidenav'
 
 interface Props {
   session: Session | null
@@ -15,9 +13,7 @@ interface Props {
 export default function Navbar({ session }: Props) {
   return (
     <nav className="w-full h-14 border-b-2 flex items-center justify-between">
-      <Button variant={'link'}>
-        <Bars3Icon className="h-5 w-5" />
-      </Button>
+      <Sidenav />
       <PediloLogoNav />
       <SessionMenu session={session} />
     </nav>

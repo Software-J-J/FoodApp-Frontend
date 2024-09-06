@@ -7,7 +7,7 @@ import { FormEvent, useCallback, useState } from 'react'
 import { Button } from '../ui/button'
 import Header from '../products/head-container'
 
-export default function Signin() {
+export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
 
@@ -40,7 +40,7 @@ export default function Signin() {
       onSubmit={handleSubmit}
     >
       <div className="bg-slate-200 border-2 border-gray-500 px-5 py-10 rounded-lg">
-        <Header title="Iniciar Sesion" />
+        <Header title="Crear cuenta" />
         <div className="mb-4">
           <div className="secondDiv">
             <label htmlFor="email" className="labelForm">
@@ -83,9 +83,9 @@ export default function Signin() {
           </Button>
         </div>
         <div className="flex flex-col gap-5">
-          <Button type="submit">Entrar</Button>
+          <Button type="submit">Registrarse</Button>
           <Button variant={'secondary'}>
-            <Link href={'/register'}>Registrarse</Link>
+            <Link href={'/login'}>Iniciar sesion</Link>
           </Button>
         </div>
       </div>

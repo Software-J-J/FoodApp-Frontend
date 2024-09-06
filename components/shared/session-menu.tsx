@@ -30,16 +30,16 @@ export default function SessionMenu({ session }: Props) {
 
               <DropdownMenuItem>
                 <Button variant={'link'} onClick={() => signOut()}>
-                  Log out
+                  Cerrar Sesion
                 </Button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </>
       ) : (
-        <div className="w-1/4">
-          <Link href={'/login'}>Loggeate</Link>
-        </div>
+        <Button variant={'secondary'} className="mx-1">
+          <Link href={'/login'}>Iniciar Sesion</Link>
+        </Button>
       )}
     </>
   )

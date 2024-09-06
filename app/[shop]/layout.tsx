@@ -2,10 +2,10 @@ import { Metadata } from 'next'
 
 import { database } from '../../tempData/fakeDb'
 
-const { name } = database.simonPostres
+const { business } = database
 
 export const metadata: Metadata = {
-  title: `${name}`,
+  title: `${business[0].name}`,
   description: 'de la gula',
 }
 

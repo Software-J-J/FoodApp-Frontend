@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { UserRoles } from '@/libs/types'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -26,10 +27,17 @@ const links = [
   },
 ]
 
-export default function NavLinks() {
+type Props = {
+  rol: UserRoles
+}
+
+export default function NavLinks({ rol }: Props) {
   const pathname = usePathname()
+  console.log(rol)
+
   return (
     <>
+      {rol === 'ADMINISTRADOR' && <p className="text-black">{rol}</p>}
       {links.map((link, idx) => {
         return (
           <Button key={idx} variant={'ghost'} asChild>
