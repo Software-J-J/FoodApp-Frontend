@@ -1,10 +1,7 @@
-'use server'
-
 import axios from 'axios'
 import { redirect } from 'next/navigation'
 
 export async function crearOrden(formData: FormData) {
-  'use server'
   const rawFormData = {
     userName: formData.get('userName'),
     phone: formData.get('phone'),
@@ -18,3 +15,13 @@ export async function crearOrden(formData: FormData) {
 }
 
 // CON BACKEND
+
+export async function getAllProducts() {
+  try {
+    const response = await axios.get('http://localhost:3010/api/products')
+    // console.log('Respuesta del servidor:', response)
+    return response.data
+  } catch (error) {
+    console.error('Error al pedir los productos:', error)
+  }
+}
