@@ -2,33 +2,41 @@
 
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { FormEvent, useCallback, useState } from 'react'
 import { Button } from '../ui/button'
 import Header from '../products/head-container'
+import axios, { AxiosError } from 'axios'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
-
-  const router = useRouter()
 
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      const formData = new FormData(event.currentTarget)
-      const res = await signIn('credentials', {
-        email: formData.get('email'),
-        password: formData.get('password'),
-        redirect: false,
-      })
+      try {
+        const formData = new FormData(event.currentTarget)
+        const registerResponse = await axios.post(
+          'http://localhost:3010/api/auth/register',
+          {
+            email: formData.get('email'),
+            password: formData.get('password'),
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            address: formData.get('address'),
+          }
+        )
 
-      if (res?.error) {
-        setError(res.error as string)
-      }
-
-      if (!res?.error) {
-        return router.push('/')
+        await signIn('credentials', {
+          email: registerResponse.data.email,
+          password: formData.get('password'),
+          redirect: false,
+        })
+      } catch (error) {
+        console.log(error)
+        if (error instanceof AxiosError) {
+          const errorMessage = error.response?.data.message
+          console.error(errorMessage)
+        }
       }
     },
     []
@@ -41,6 +49,23 @@ export default function Register() {
     >
       <div className="bg-slate-200 border-2 border-gray-500 px-5 py-10 rounded-lg">
         <Header title="Crear cuenta" />
+
+        <div className="mb-4">
+          <div className="secondDiv">
+            <label htmlFor="name" className="labelForm">
+              Tu nombre:
+            </label>
+            <div className="relative">
+              <input
+                className="inputForm"
+                type="text"
+                placeholder="Nombre"
+                name="name"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="mb-4">
           <div className="secondDiv">
             <label htmlFor="email" className="labelForm">
@@ -71,6 +96,9 @@ export default function Register() {
               />
             </div>
           </div>
+
+          {/* aca va el repetir contrasena */}
+
           <Button
             variant={'link'}
             onClick={(e) => {
@@ -82,6 +110,39 @@ export default function Register() {
             {showPassword ? 'Esconder Contrasena' : 'Ver Contrasena'}
           </Button>
         </div>
+
+        <div className="mb-4">
+          <div className="secondDiv">
+            <label htmlFor="phone" className="labelForm">
+              Telefono:
+            </label>
+            <div className="relative">
+              <input
+                className="inputForm"
+                type="text"
+                placeholder="Telefono"
+                name="phone"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <div className="secondDiv">
+            <label htmlFor="address" className="labelForm">
+              Direccion:
+            </label>
+            <div className="relative">
+              <input
+                className="inputForm"
+                type="text"
+                placeholder="Direccion"
+                name="address"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="flex flex-col gap-5">
           <Button type="submit">Registrarse</Button>
           <Button variant={'secondary'}>
