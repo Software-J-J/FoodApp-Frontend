@@ -1,5 +1,9 @@
-import React from 'react'
+import Title from '@/components/admin/title'
 
 export default function Page() {
-  return <div>Ajustes</div>
+  return (
+    <div>
+      <Title titleProp="Crear negocio" />
+    </div>
+  )
 }
