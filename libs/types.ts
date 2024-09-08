@@ -39,6 +39,11 @@ export type ProductCartContextType = {
   removeCartProduct: (idProduct: number) => void
 }
 
+export type UserRolContextType = {
+  choosedRol: UserRoles
+  setChoosedRol: (rol: UserRoles) => void
+}
+
 // TYPADO DE BACKEND
 
 export type Product = {

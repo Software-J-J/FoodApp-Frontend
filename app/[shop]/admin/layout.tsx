@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <main className="flex h-screen flex-col md:flex-row md:overflow-hidden relative">
-      <NavBar />
       <section className="flex-grow p-6 md:overflow-y-auto md:p-12">
         {children}
       </section>

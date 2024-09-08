@@ -16,14 +16,11 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import NavLinks from './nav-links'
 import { database } from '@/tempData/fakeDb'
 import { signOut } from 'next-auth/react'
-import { useState } from 'react'
-import { UserRoles } from '@/libs/types'
 import SelectRol from '../shared/select-rol'
+import RolProvider, { RolContext } from '@/context/RolContext'
 
 export function Sidenav() {
   const { business } = database
-  const [roles, setRoles] = useState<UserRoles>('USER')
-  console.log(roles)
 
   return (
     <div className="grid grid-cols-2 gap-2">
@@ -38,8 +35,10 @@ export function Sidenav() {
             <Separator className="my-4" />
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            <SelectRol rol={roles} handleRol={setRoles} />
-            <NavLinks rol={roles} />
+            <RolProvider>
+              <SelectRol />
+              <NavLinks />
+            </RolProvider>
           </div>
           <Separator className="my-4" />
           <SheetFooter>
