@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           ...token,
           id: u.id,
           roles: u.roles,
+          businessId: u.businessId,
         }
       }
       return token
@@ -68,6 +69,7 @@ export const authOptions: NextAuthOptions = {
           id: token.id,
           name: token.name,
           roles: token.roles,
+          businessId: token.businessId,
         },
       }
     },

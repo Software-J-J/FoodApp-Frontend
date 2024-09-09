@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { Session } from 'next-auth'
 import { Button } from '../ui/button'
 import {
@@ -16,6 +16,9 @@ interface Props {
 }
 
 export default function SessionMenu({ session }: Props) {
+  const { data } = useSession()
+  const isOwner = data?.user.businessId
+
   return (
     <>
       {session?.user ? (
@@ -27,7 +30,11 @@ export default function SessionMenu({ session }: Props) {
             <DropdownMenuContent>
               <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-
+              {isOwner && (
+                <DropdownMenuItem>
+                  <Link href={`/admin/${isOwner}`}>Panel de admin</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem>
                 <Button variant={'link'} onClick={() => signOut()}>
                   Cerrar Sesion
