@@ -60,6 +60,24 @@ export default function NavLinks() {
       >
         Crear negocio
       </Link>
+      <Link
+        key={1}
+        href={'asd/admin/create'}
+        className={clsx(
+          'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
+        )}
+      >
+        Agregar empleado
+      </Link>
+      <Link
+        key={1}
+        href={'/developer/owner-business'}
+        className={clsx(
+          'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
+        )}
+      >
+        Agregar dueno
+      </Link>
     </>
   )
 }
