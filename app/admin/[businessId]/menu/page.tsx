@@ -9,6 +9,7 @@ import useProducts from '@/hooks/useProducts'
 import { useSession } from 'next-auth/react'
 import { Product } from '@/libs/types'
 import { usePathname } from 'next/navigation'
+import InventoryCateories from '@/components/admin/inventory-categories'
 
 export default function Page() {
   const pathname = usePathname()
@@ -17,9 +18,7 @@ export default function Page() {
 
   const businessId = session?.user.businessId
 
-  const { products, isLoading, isError } = useProducts(
-    '66be42a0-63ff-4f7f-bf8d-27136255ac07'
-  )
+  const { products, isLoading, isError } = useProducts(businessId!)
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -41,6 +40,10 @@ export default function Page() {
         ) : (
           <Inventory title="Todos los productos" products={productos} />
         )}
+      </section>
+      <section>
+        <Title titleProp="Categorias" />
+        <InventoryCateories />
       </section>
       <section>
         <Link href={`${pathname}/create`}>

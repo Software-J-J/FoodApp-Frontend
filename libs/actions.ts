@@ -28,3 +28,13 @@ export async function getAllProducts(businessId: string) {
     console.error('Error al pedir los productos:', error)
   }
 }
+
+export async function getAllCategories() {
+  try {
+    const response = await axios.get(`${sharedLink}/category`)
+
+    return response || []
+  } catch (error) {
+    console.error('Error al pedir los productos:', error)
+  }
+}
