@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import useProducts from '@/hooks/useProducts'
 import { useSession } from 'next-auth/react'
-import { Suspense } from 'react'
 import { Product } from '@/libs/types'
+import { usePathname } from 'next/navigation'
 
 export default function Page() {
-  // const { products } = simonPostres
+  const pathname = usePathname()
 
   const { data: session } = useSession()
 
@@ -35,18 +35,19 @@ export default function Page() {
     <main className="flex flex-col justify-between items-center h-[80vh]">
       <section>
         <Title titleProp={'Menu'} />
-
+        {/* maybe no es necesario pero por ahora funciona asi */}
         {products?.data.length === 0 ? (
           <p>Vacio</p>
         ) : (
-          // <Suspense>
           <Inventory title="Todos los productos" products={productos} />
-          // </Suspense>
         )}
       </section>
       <section>
-        <Link href={`/create`}>
+        <Link href={`${pathname}/create`}>
           <Button variant={'inventory'}>Agregar producto al menu</Button>
+        </Link>
+        <Link href={`${pathname}/create-cat`}>
+          <Button variant={'inventory'}>Agregar categoria nueva</Button>
         </Link>
       </section>
     </main>
