@@ -47,12 +47,15 @@ export type UserRolContextType = {
 // TYPADO DE BACKEND
 
 export type Product = {
-  id: string | number
+  businessId: string
+  category: Category
+  categoryId: number
+
+  id: number
   name: string
   description: string
   price: number
   image: string
-  category: string | number
   status: boolean
 
   createdAt: Date
@@ -131,4 +134,8 @@ export interface User {
 
   createdAt: Date
   updatedAt: Date
+}
+
+export interface Category {
+  name: string
 }

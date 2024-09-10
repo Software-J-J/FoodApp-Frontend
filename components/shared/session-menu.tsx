@@ -25,7 +25,7 @@ export default function SessionMenu({ session }: Props) {
         <>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant={'outline'}>Hola {session?.user?.name}</Button>
+              <p>Hola {session?.user?.name}</p>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>

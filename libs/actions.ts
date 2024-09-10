@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { redirect } from 'next/navigation'
+import { Product } from './types'
 
 export async function crearOrden(formData: FormData) {
   const rawFormData = {
@@ -16,11 +17,13 @@ export async function crearOrden(formData: FormData) {
 
 // CON BACKEND
 
-export async function getAllProducts() {
+const sharedLink = 'http://localhost:3010/api'
+
+export async function getAllProducts(businessId: string) {
   try {
-    const response = await axios.get('http://localhost:3010/api/products')
-    // console.log('Respuesta del servidor:', response)
-    return response.data
+    const response = await axios.get(`${sharedLink}/products/${businessId}`)
+
+    return response.data || []
   } catch (error) {
     console.error('Error al pedir los productos:', error)
   }

@@ -7,22 +7,19 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const links = [
+  { name: 'fake', href: `/admin` },
   // { name: 'Resumen de pedidos', href: `/admin` },
   // {
   //   name: 'Pedidos recientes',
   //   href: `/admin/recientes`,
   // },
   // { name: 'Desempeño', href: `/admin/desempeno` },
-  { name: 'Menues', href: `/admin/menues` },
+  // { name: 'Menues', href: `/admin/menues` },
   // { name: 'Ajustes', href: `/admin/ajustes` },
   // {
   //   name: 'Bandeja de entrada',
   //   href: `/admin/inbox`,
   // },
-  {
-    name: 'Crear negocio',
-    href: '/admin/create',
-  },
 ]
 
 export default function NavLinks() {
@@ -32,7 +29,6 @@ export default function NavLinks() {
 
   return (
     <>
-      <p className="text-black">{role}</p>
       {links.map((link, idx) => {
         return (
           <Button key={idx} variant={'ghost'} asChild>
@@ -53,7 +49,7 @@ export default function NavLinks() {
       })}
       <Link
         key={1}
-        href={'asd/admin/create'}
+        href={'developer/create-business'}
         className={clsx(
           'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
         )}
@@ -61,16 +57,16 @@ export default function NavLinks() {
         Crear negocio
       </Link>
       <Link
-        key={1}
-        href={'asd/admin/create'}
+        key={2}
+        href={'developer/owner-business'}
         className={clsx(
           'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
         )}
       >
-        Agregar empleado
+        Agregar admin de negocio
       </Link>
       <Link
-        key={1}
+        key={3}
         href={'/developer/owner-business'}
         className={clsx(
           'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
