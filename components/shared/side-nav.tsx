@@ -10,8 +10,19 @@ import {
 } from '@/components/ui/sheet'
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { Separator } from '../ui/separator'
+import { Session } from 'next-auth'
+import { isAdmin } from '@/utils/checkrole'
+import { useUserStore } from '@/store/user/user-store'
+import UserNavLinks from './user-nav-links'
+import AdminNavLinks from '../admin/admin-links'
 
-export default function SideNav() {
+interface Props {
+  session: Session
+}
+
+export default function SideNav({ session }: Props) {
+  const { user } = useUserStore()
+  const userRol = user?.roles
   return (
     <Sheet>
       <SheetTrigger>
@@ -24,7 +35,13 @@ export default function SideNav() {
           <Separator className="my-4" />
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          {/* navlinks segun rol de session */}
+          {userRol!! && userRol.includes('USER') ? (
+            <UserNavLinks />
+          ) : userRol!! && userRol.includes('ADMINISTRADOR') ? (
+            <AdminNavLinks />
+          ) : userRol!! && userRol.includes('DESARROLLADOR') ? (
+            <p>Desarrollador</p>
+          ) : null}
         </div>
         <Separator className="my-4" />
         <SheetFooter>

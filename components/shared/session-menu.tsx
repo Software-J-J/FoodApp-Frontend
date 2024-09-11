@@ -10,44 +10,46 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useUserStore } from '@/store/user/user-store'
 
 interface Props {
   session: Session | null
 }
 
-export default function SessionMenu({ session }: Props) {
-  const { data } = useSession()
-  const isOwner = data?.user.businessId
+export default function SessionMenu() {
+  const { user } = useUserStore()
+  const userRol = user?.roles
+
+  if (user === null || user === undefined) {
+    return <p>null</p>
+  }
 
   return (
-    <>
-      {session?.user ? (
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <p>Hola {session?.user?.name}</p>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {isOwner && (
-                <DropdownMenuItem>
-                  <Link href={`/admin/${isOwner}`}>Panel de admin</Link>
-                </DropdownMenuItem>
-              )}
-              <DropdownMenuItem>
-                <Button variant={'link'} onClick={() => signOut()}>
-                  Cerrar Sesion
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </>
-      ) : (
-        <Button variant={'secondary'} className="mx-1">
-          <Link href={'/login'}>Iniciar Sesion</Link>
-        </Button>
-      )}
-    </>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <p>Hola {user.name}</p>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {userRol!.includes('ADMINISTRADOR') && (
+          <DropdownMenuItem>
+            <Button>
+              <Link href={`/admin/${user.businessId}`}>Panel de admin</Link>
+            </Button>
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuItem>
+          <Button>
+            <Link href={`#`}>Panel de cuenta</Link>
+          </Button>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Button variant={'link'} onClick={() => signOut()}>
+            Cerrar Sesion
+          </Button>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
