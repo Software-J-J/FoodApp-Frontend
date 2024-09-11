@@ -21,9 +21,7 @@ export default function Navbar() {
 
   return (
     <nav className="w-full h-14 border-b-2 flex items-center justify-between">
-      <div className="w-1/3">
-        {session !== null && <SideNav session={session} />}
-      </div>
+      <div className="w-1/3">{session !== null && <SideNav />}</div>
       <div>
         <PediloLogoNav />
       </div>

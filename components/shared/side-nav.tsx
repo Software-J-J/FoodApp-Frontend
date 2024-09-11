@@ -20,7 +20,7 @@ interface Props {
   session: Session
 }
 
-export default function SideNav({ session }: Props) {
+export default function SideNav() {
   const { user } = useUserStore()
   const userRol = user?.roles
   return (

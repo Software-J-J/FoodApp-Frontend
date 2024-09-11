@@ -25,7 +25,7 @@ export default function Page() {
   }
 
   if (isError) {
-    return <p>cagada noma</p>
+    return <p>Algo salio mal</p>
   }
 
   const productos: Product[] = products.data
