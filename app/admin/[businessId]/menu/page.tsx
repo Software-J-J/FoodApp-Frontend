@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import useProducts from '@/hooks/useProducts'
 import { useSession } from 'next-auth/react'
-import { Product } from '@/libs/types'
+import { Category, Product } from '@/libs/types'
 import { usePathname } from 'next/navigation'
-import InventoryCateories from '@/components/admin/inventory-categories'
+import Section from '@/components/admin/section'
 
 export default function Page() {
   const pathname = usePathname()
@@ -18,7 +18,7 @@ export default function Page() {
 
   const businessId = session?.user.businessId
 
-  const { products, isLoading, isError } = useProducts(businessId!)
+  const { products, categories, isLoading, isError } = useProducts(businessId!)
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -34,16 +34,14 @@ export default function Page() {
     <main className="flex flex-col justify-between items-center h-[80vh]">
       <section>
         <Title titleProp={'Menu'} />
-        {/* maybe no es necesario pero por ahora funciona asi */}
-        {products?.data.length === 0 ? (
-          <p>Vacio</p>
-        ) : (
-          <Inventory title="Todos los productos" products={productos} />
-        )}
+
+        <Inventory title="Todos los productos" products={productos} />
       </section>
       <section>
         <Title titleProp="Categorias" />
-        <InventoryCateories />
+        {categories.map((cat: Category) => (
+          <Section title={cat.name} count={+cat.id} key={cat.id} />
+        ))}
       </section>
       <section>
         <Link href={`${pathname}/create`}>

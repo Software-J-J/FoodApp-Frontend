@@ -1,17 +1,28 @@
 'use client'
 
-import { getAllProducts } from '@/libs/actions'
-import { useQuery } from '@tanstack/react-query'
+import { getAllCategories, getAllProducts } from '@/libs/actions'
+import { useQueries } from '@tanstack/react-query'
 
 export default function useProducts(businessId: string) {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['products', businessId],
-    queryFn: () => getAllProducts(businessId),
-  })
+  return useQueries({
+    queries: [
+      {
+        queryKey: ['products', { businessId }],
+        queryFn: () => getAllProducts(businessId),
+      },
+      { queryKey: ['categories'], queryFn: () => getAllCategories() },
+    ],
+    combine: (queries) => {
+      const isLoading = queries.some((query) => query.status === 'pending')
+      const isError = queries.some((query) => query.status === 'error')
+      const [products, categories] = queries.map((query) => query.data)
 
-  return {
-    products: data,
-    isLoading,
-    isError: !!error,
-  }
+      return {
+        isLoading,
+        isError,
+        products,
+        categories,
+      }
+    },
+  })
 }

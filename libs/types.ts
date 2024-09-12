@@ -62,6 +62,12 @@ export type Product = {
   updatedAt: Date
 }
 
+export type Category = {
+  id: string
+  name: string
+  status: boolean
+}
+
 export type OrderStatus = 'PENDING' | 'PAID' | 'DELIVERED' | 'CANCELLED'
 
 export type UserRoles =
@@ -134,8 +140,4 @@ export interface User {
 
   createdAt: Date
   updatedAt: Date
-}
-
-export interface Category {
-  name: string
 }
