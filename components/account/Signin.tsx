@@ -1,22 +1,17 @@
 'use client'
 
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FormEvent, useCallback, useEffect, useState } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
+import { Button } from '../ui/button'
+import Header from '../products/head-container'
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
 
   const router = useRouter()
-  //   const { data: session } = useSession()
-
-  //   useEffect(() => {
-  //     if (session?.user) {
-  //       window.location.reload()
-  //     }
-  //   }, [session])
 
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
@@ -40,35 +35,60 @@ export default function Signin() {
   )
 
   return (
-    <section>
-      <form
-        className="flex flex-col justify-center items-center"
-        onSubmit={handleSubmit}
-      >
-        <h1>Sign In</h1>
+    <form
+      className="h-screen flex flex-col justify-center items-center"
+      onSubmit={handleSubmit}
+    >
+      <div className="bg-slate-200 border-2 border-gray-500 px-5 py-10 rounded-lg">
+        <Header title="Iniciar Sesion" />
+        <div className="mb-4">
+          <div className="secondDiv">
+            <label htmlFor="email" className="labelForm">
+              Correo Electronico:
+            </label>
+            <div className="relative">
+              <input
+                className="inputForm"
+                type="email"
+                placeholder="Email"
+                name="email"
+              />
+            </div>
+          </div>
+        </div>
 
-        <label htmlFor="email">Email: </label>
-        <input type="email" placeholder="Email" name="email" />
-
-        <label htmlFor="password">Password: </label>
-        <input
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Password"
-          name="password"
-        />
-
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            setShowPassword(!showPassword)
-          }}
-          type="button"
-        >
-          {showPassword ? 'Hide Password' : 'Show Password'}
-        </button>
-        <button type="submit">Sign Up</button>
-        <Link href={'/register'}>Registrarse</Link>
-      </form>
-    </section>
+        <div className="mb-4 flex flex-col items-center">
+          <div className="secondDiv">
+            <label htmlFor="password" className="labelForm">
+              Contrasena:
+            </label>
+            <div className="relative">
+              <input
+                className="inputForm"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                name="password"
+              />
+            </div>
+          </div>
+          <Button
+            variant={'link'}
+            onClick={(e) => {
+              e.preventDefault()
+              setShowPassword(!showPassword)
+            }}
+            type="button"
+          >
+            {showPassword ? 'Esconder Contrasena' : 'Ver Contrasena'}
+          </Button>
+        </div>
+        <div className="flex flex-col gap-5">
+          <Button type="submit">Entrar</Button>
+          <Button variant={'secondary'}>
+            <Link href={'/register'}>Registrarse</Link>
+          </Button>
+        </div>
+      </div>
+    </form>
   )
 }

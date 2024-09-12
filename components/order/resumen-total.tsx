@@ -3,7 +3,6 @@
 import React from 'react'
 import { CartContext } from '../../context/AppContext'
 import { ProductCartContextType } from '@/libs/types'
-import { manrope } from '../shared/fonts'
 
 export default function ResumeTotal() {
   const { cartProducts } = React.useContext(
@@ -14,7 +13,7 @@ export default function ResumeTotal() {
   React.useEffect(() => {
     const calculateTotal = () => {
       const newTotal = cartProducts.reduce((acc, product) => {
-        return acc + product.precio * product.quantity!
+        return acc + product.price * 2
       }, 0)
       setTotal(newTotal)
     }

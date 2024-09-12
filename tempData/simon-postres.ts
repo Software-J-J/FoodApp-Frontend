@@ -112,3 +112,16 @@ export const simonPostres: DataBussiness = {
     },
   ],
 }
+
+export const business = [
+  {
+    id: 1,
+    name: 'McDonalds',
+    link: 'mc-donalds',
+  },
+  {
+    id: 2,
+    name: 'Postres Dou',
+    link: 'dou-postres',
+  },
+]

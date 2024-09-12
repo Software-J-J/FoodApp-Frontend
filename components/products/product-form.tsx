@@ -33,11 +33,11 @@ export default function ProductForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
   if (status === 'loading') {
-    return <p>Loading...</p>
+    return <p>Cargando...</p>
   }
 
   if (!session) {
-    return <p>Not signed in</p>
+    return <p>Debes iniciar sesion</p>
   }
 
   const token = session?.accessToken

@@ -1,31 +1,32 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { useRoleStore } from '@/store'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
-const currentLink = 'simon-postres'
-
 const links = [
-  { name: 'Resumen de pedidos', href: `/${currentLink}/admin` },
-  {
-    name: 'Pedidos recientes',
-    href: `/${currentLink}/admin/recientes`,
-  },
-  { name: 'Desempeño', href: `/${currentLink}/admin/desempeno` },
-  { name: 'Menues', href: `/${currentLink}/admin/menues` },
-  { name: 'Ajustes', href: `/${currentLink}/admin/ajustes` },
-  {
-    name: 'Bandeja de entrada',
-    href: `/${currentLink}/admin/inbox`,
-  },
+  { name: 'fake', href: `/admin` },
+  // { name: 'Resumen de pedidos', href: `/admin` },
+  // {
+  //   name: 'Pedidos recientes',
+  //   href: `/admin/recientes`,
+  // },
+  // { name: 'Desempeño', href: `/admin/desempeno` },
+  // { name: 'Menues', href: `/admin/menues` },
+  // { name: 'Ajustes', href: `/admin/ajustes` },
+  // {
+  //   name: 'Bandeja de entrada',
+  //   href: `/admin/inbox`,
+  // },
 ]
 
 export default function NavLinks() {
   const pathname = usePathname()
+
+  const { role } = useRoleStore()
+
   return (
     <>
       {links.map((link, idx) => {
@@ -33,7 +34,7 @@ export default function NavLinks() {
           <Button key={idx} variant={'ghost'} asChild>
             <Link
               key={link.name}
-              href={link.href}
+              href={`${[pathname]}/${link.href}`}
               className={clsx(
                 'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
                 {
@@ -46,6 +47,33 @@ export default function NavLinks() {
           </Button>
         )
       })}
+      <Link
+        key={1}
+        href={'developer/create-business'}
+        className={clsx(
+          'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
+        )}
+      >
+        Crear negocio
+      </Link>
+      <Link
+        key={2}
+        href={'developer/owner-business'}
+        className={clsx(
+          'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
+        )}
+      >
+        Agregar admin de negocio
+      </Link>
+      <Link
+        key={3}
+        href={'/developer/owner-business'}
+        className={clsx(
+          'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3'
+        )}
+      >
+        Agregar dueno
+      </Link>
     </>
   )
 }

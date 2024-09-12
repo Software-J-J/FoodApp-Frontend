@@ -23,3 +23,12 @@ export async function POST(req: Request) {
     return Response.json({})
   }
 }
+
+export async function GET() {
+  try {
+    const response = await axios.get('http://localhost:3010/api/products')
+    return response
+  } catch (error) {
+    console.error('Error al pedir los productos:2', error)
+  }
+}

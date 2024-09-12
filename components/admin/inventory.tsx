@@ -16,15 +16,15 @@ import { InventoryItem } from './inventory-item'
 
 type Props = {
   title: string
-  items: Product[]
+  products: Product[]
 }
 
-export default function Inventory({ title, items }: Props) {
+export default function Inventory({ title, products }: Props) {
   return (
     <div>
       <Sheet>
         <SheetTrigger>
-          <Section title={title} count={items.length} />
+          <Section title={title} count={products.length} />
         </SheetTrigger>
         <SheetContent side={'right'} className="flex flex-col justify-around">
           <SheetHeader>
@@ -32,7 +32,7 @@ export default function Inventory({ title, items }: Props) {
             <SheetDescription>Descripcion asd</SheetDescription>
           </SheetHeader>
           <div className="grid gap-4 py-4">
-            {items.map((p) => (
+            {products.map((p) => (
               <InventoryItem item={p} key={p.id} />
             ))}
           </div>

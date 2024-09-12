@@ -39,19 +39,33 @@ export type ProductCartContextType = {
   removeCartProduct: (idProduct: number) => void
 }
 
+export type UserRolContextType = {
+  choosedRol: UserRoles
+  setChoosedRol: (rol: UserRoles) => void
+}
+
 // TYPADO DE BACKEND
 
 export type Product = {
-  id: string | number
+  businessId: string
+  category: Category
+  categoryId: number
+
+  id: number
   name: string
   description: string
   price: number
   image: string
-  category: string | number
   status: boolean
 
   createdAt: Date
   updatedAt: Date
+}
+
+export type Category = {
+  id: string
+  name: string
+  status: boolean
 }
 
 export type OrderStatus = 'PENDING' | 'PAID' | 'DELIVERED' | 'CANCELLED'
