@@ -11,7 +11,7 @@ import Providers from '@/providers/Providers'
 export const metadata: Metadata = {
   title: {
     template: '%s | Pedilo',
-    default: 'Pedilo',
+    default: 'Pedilo App',
   },
   description: 'App de gestion de pedidos',
 }

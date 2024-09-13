@@ -4,10 +4,14 @@ import { getAllOrders } from '@/libs/actions'
 import { useQuery } from '@tanstack/react-query'
 
 export default function useOrders(token: string) {
-  const orders = useQuery({
-    queryKey: ['Orders'],
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['orders'],
     queryFn: () => getAllOrders(token),
   })
 
-  return orders
+  return {
+    orders: data,
+    isLoading,
+    isError,
+  }
 }

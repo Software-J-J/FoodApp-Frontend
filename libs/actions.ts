@@ -63,12 +63,37 @@ export async function getOrderById(orderId: string) {
 }
 
 export async function getAllOrders(token: string) {
+  console.log(token)
+
   try {
     const allOrders = await axios.get(`${sharedLink}/orders`, {
-      headers: { Authorization: 'Bearer ' + token },
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
     })
+
     return allOrders.data
   } catch (error) {
     console.error('Error en actions al buscar las ordenes:', error)
+  }
+}
+
+export async function getAllBusiness() {
+  try {
+    const allBusiness = await axios.get(`${sharedLink}/business`)
+
+    return allBusiness.data
+  } catch (error) {
+    console.error('Error en actions al buscar los negocios:', error)
+  }
+}
+
+export async function getBusinessById(businessId: string) {
+  try {
+    const business = await axios.get(`${sharedLink}/business/${businessId}`)
+
+    return business.data
+  } catch (error) {
+    console.error('Error en actions al buscar el negocio:', error)
   }
 }
