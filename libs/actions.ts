@@ -130,6 +130,169 @@ export async function reportOrder(orderId: string, token: string) {
 
     return report
   } catch (error) {
-    console.error('Error en actions al imprimir reporte')
+    console.error('Error en actions al imprimir reporte', error)
+  }
+}
+
+export async function updateUser({
+  userId,
+  userData,
+  newValue,
+  token,
+}: {
+  userId: string
+  userData: string
+  newValue: string
+  token: string
+}) {
+  const newData = { [userData]: newValue }
+  try {
+    const userUpdate = await axios.patch(
+      `${sharedLink}/auth/${userId}`,
+      newData,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return userUpdate
+  } catch (error) {
+    console.error('Error en actions al modificar usuario', error)
+  }
+}
+
+export async function getAllUsers(token: string) {
+  try {
+    const allUsers = await axios.get(`${sharedLink}/auth`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+
+    return allUsers
+  } catch (error) {
+    console.error('Error en actions al traer todos los usuarios', error)
+  }
+}
+
+export async function updateBusiness({
+  token,
+  businessId,
+  newData,
+}: {
+  token: string
+  businessId: string
+  newData: any
+}) {
+  try {
+    const updatedBusiness = await axios.patch(
+      `${sharedLink}/business/${businessId}`,
+      newData,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return updatedBusiness
+  } catch (error) {
+    console.error('Error en actions al modificar business', error)
+  }
+}
+
+export async function updateProduct({
+  productId,
+  newData,
+  token,
+}: {
+  productId: string
+  newData: any
+  token: string
+}) {
+  try {
+    const updatedProduct = await axios.patch(
+      `${sharedLink}/products/${productId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return updatedProduct
+  } catch (error) {
+    console.error('Error en actions al modificar producto', error)
+  }
+}
+
+export async function deleteProduct({
+  productId,
+  token,
+}: {
+  productId: string
+  token: string
+}) {
+  try {
+    const deletedProduct = await axios.delete(
+      `${sharedLink}/products/${productId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return deletedProduct
+  } catch (error) {
+    console.error('Error en actions al borrar producto', error)
+  }
+}
+
+export async function updateCategory({
+  productId,
+  token,
+}: {
+  productId: string
+  token: string
+}) {
+  try {
+    const updatedCategory = await axios.delete(
+      `${sharedLink}/products/${productId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return updatedCategory
+  } catch (error) {
+    console.error('Error en actions al updatear categoria', error)
+  }
+}
+
+export async function deleteCategory({
+  productId,
+  token,
+}: {
+  productId: string
+  token: string
+}) {
+  try {
+    const deletedCategory = await axios.delete(
+      `${sharedLink}/category/${productId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return deletedCategory
+  } catch (error) {
+    console.error('Error en actions al borrar categoria', error)
   }
 }
