@@ -7,6 +7,7 @@ import { authOptions } from '@/libs/auth'
 
 import Navbar from '@/components/shared/navbar'
 import Providers from '@/providers/Providers'
+require('dotenv').config()
 
 export const metadata: Metadata = {
   title: {

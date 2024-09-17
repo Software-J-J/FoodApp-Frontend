@@ -26,7 +26,7 @@ export default function Navbar() {
         <PediloLogoNav />
       </div>
       <div className="w-1/3">
-        {user === null ? (
+        {user === null || user === undefined ? (
           <Button variant={'secondary'} className="mx-1">
             <Link href={'/login'}>Iniciar Sesion</Link>
           </Button>

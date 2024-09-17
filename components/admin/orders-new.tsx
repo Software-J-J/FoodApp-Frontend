@@ -1,25 +1,19 @@
 import { Order } from '@/libs/types'
 import React from 'react'
-import { Button } from '../ui/button'
+import { OrderDialog } from './order-dialog'
 
 export default function OrdersNew({ orders }: { orders: Order[] }) {
   const news = orders.filter((order) => order.status === 'PAID')
   return (
-    <section>
-      {news.map((order) => (
-        <div key={order.id} className="border-2 border-black">
-          <div className="flex">
-            <p>{order.id}</p>
-            <p>{order.user?.name}</p>
-            <p>{order.status}</p>
-          </div>
-          <div className="flex justify-around">
-            <Button>Listo p reparto</Button>
-            <Button>Wsp</Button>
-            <Button>Print</Button>
-          </div>
-        </div>
-      ))}
+    <section className="border-2 rounded-xl mx-2 h-[50vh]">
+      <h1 className="text-xl font-extrabold text-center my-1">
+        Nuevas ordenes
+      </h1>
+      <div className="border-2 mx-1 rounded-sm h-[90%]">
+        {news.map((order) => (
+          <OrderDialog key={order.id} order={order} />
+        ))}
+      </div>
     </section>
   )
 }

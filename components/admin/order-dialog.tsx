@@ -10,21 +10,40 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Order } from '@/libs/types'
+import reduceUuid from '@/utils/short-id'
+import { PhoneIcon, PrinterIcon } from '@heroicons/react/24/outline'
+import HandleOrderStatus from './handle-status'
+import { reportOrder } from '@/libs/actions'
+import { token } from '@/utils/token'
 
 export function OrderDialog({ order }: { order: Order }) {
+  const handlePrint = (ev: any) => {
+    ev.stopPropagation()
+
+    return reportOrder(order.id, token)
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div key={order.id} className="border-2 border-black">
-          <div className="flex">
-            <p>{order.id}</p>
+        <div key={order.id} className="w-full border-b-2 py-2">
+          <div className="flex justify-around">
+            <p>{reduceUuid(order.id)}</p>
             <p>{order.user?.name}</p>
             <p>{order.status}</p>
           </div>
           <div className="flex justify-around">
-            <Button>Listo p reparto</Button>
-            <Button>Wsp</Button>
-            <Button>Print</Button>
+            <Button variant={'outline'} size={'icon'}>
+              <PhoneIcon />
+            </Button>
+            <Button
+              onClick={(ev) => handlePrint(ev)}
+              variant={'outline'}
+              size={'icon'}
+            >
+              <PrinterIcon />
+            </Button>
+            <HandleOrderStatus orderId={order.id} orderStatus={order.status} />
+            {/* <Button variant={'secondary'}>Listo para reparto</Button> */}
           </div>
         </div>
       </DialogTrigger>

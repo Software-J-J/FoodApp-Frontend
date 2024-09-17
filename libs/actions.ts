@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { DeliveryMethod, User } from './types'
+import { DeliveryMethod, OrderStatus, User } from './types'
 
 const sharedLink = 'http://localhost:3010/api'
 
@@ -46,7 +46,7 @@ export async function createOrder(
       address,
     })
 
-    return newOrder.status
+    return newOrder
   } catch (error) {
     console.error('Error en actions al crear order:', error)
   }
@@ -63,8 +63,6 @@ export async function getOrderById(orderId: string) {
 }
 
 export async function getAllOrders(token: string) {
-  console.log(token)
-
   try {
     const allOrders = await axios.get(`${sharedLink}/orders`, {
       headers: {
@@ -95,5 +93,43 @@ export async function getBusinessById(businessId: string) {
     return business.data
   } catch (error) {
     console.error('Error en actions al buscar el negocio:', error)
+  }
+}
+
+export async function changeOrderStatus(
+  orderId: string,
+  newStatus: OrderStatus,
+  token: string
+) {
+  try {
+    const nextStep = await axios.patch(
+      `${sharedLink}/orders/${orderId}`,
+      {
+        status: newStatus,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return nextStep
+  } catch (error) {
+    console.error('Error en actions al modificar order: ', error)
+  }
+}
+
+export async function reportOrder(orderId: string, token: string) {
+  try {
+    const report = await axios.get(`${sharedLink}/reports/order/${orderId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
+
+    return report
+  } catch (error) {
+    console.error('Error en actions al imprimir reporte')
   }
 }
