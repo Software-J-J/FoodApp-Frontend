@@ -5,7 +5,7 @@ export default function page() {
   return (
     <div>
       <h1>aca no es :s</h1>
-      <OrderTab />
+      {/* <OrderTab /> */}
     </div>
   )
 }

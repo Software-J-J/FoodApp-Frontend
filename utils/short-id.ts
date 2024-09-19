@@ -3,8 +3,8 @@ export default function reduceUuid(uuid: string) {
     return 'UUID inválido'
   }
 
-  const start = uuid.substring(0, 4)
+  // const start = uuid.substring(0, 4)
   const end = uuid.substring(32)
 
-  return start + '...' + end
+  return '#' + end
 }

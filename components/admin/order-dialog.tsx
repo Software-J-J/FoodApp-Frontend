@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -9,101 +8,116 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Order } from '@/libs/types'
 import reduceUuid from '@/utils/short-id'
-import { PhoneIcon, PrinterIcon } from '@heroicons/react/24/outline'
-import HandleOrderStatus from './handle-status'
-import { reportOrder } from '@/libs/actions'
-import { token } from '@/utils/token'
+import { UserIcon } from '@heroicons/react/24/outline'
 
-export function OrderDialog({ order }: { order: Order }) {
-  const handlePrint = (ev: any) => {
-    ev.stopPropagation()
+import { useShopStore } from '@/store/shop/shop-store'
+import { BikeIcon } from 'lucide-react'
+import { Separator } from '../ui/separator'
+import { calcTime } from '@/utils/calcTime'
+import { Order } from '@/libs/types'
 
-    return reportOrder(order.id, token)
+export function DetailOrder({ orderId }: { orderId: string }) {
+  const { shop } = useShopStore()
+
+  const repartidor = { name: 'Hugo' }
+
+  const items = [
+    {
+      price: 2700,
+      productId: 2,
+      quantity: 5,
+      name: 'Lemon Pie',
+    },
+    {
+      price: 2400,
+      productId: 2,
+      quantity: 1,
+      name: 'Pastaflora',
+    },
+  ]
+
+  const order: Order = {
+    id: 'be3ebef0-c8af-4756-a126-bf5f6bcb0a90',
+    totalAmount: 13500,
+    totalItems: 5,
+    status: 'PENDING',
+    paid: false,
+    paidAt: null,
+    stripeChargeId: null,
+    createdAt: '2024-09-18T14:30:02.025Z',
+    updateAt: '2024-09-18T14:30:02.025Z',
+    userId: 'a9738e65-7397-4cee-aaa4-43668a99bcbe',
+    guestName: 'Papas owner',
+    guestPhone: '3437445403',
+    guestAddress: 'San Benito y Roca Mora',
+    deliveryMethod: 'PICKUP',
+    orderNumber: 3,
+    businessId: 'a63a5bfa-cd96-4f6b-8972-f654ef14f617',
   }
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div key={order.id} className="w-full border-b-2 py-2">
-          <div className="flex justify-around">
-            <p>{reduceUuid(order.id)}</p>
-            <p>{order.user?.name}</p>
-            <p>{order.status}</p>
-          </div>
-          <div className="flex justify-around">
-            <Button variant={'outline'} size={'icon'}>
-              <PhoneIcon />
-            </Button>
-            <Button
-              onClick={(ev) => handlePrint(ev)}
-              variant={'outline'}
-              size={'icon'}
-            >
-              <PrinterIcon />
-            </Button>
-            <HandleOrderStatus orderId={order.id} orderStatus={order.status} />
-            {/* <Button variant={'secondary'}>Listo para reparto</Button> */}
-          </div>
-        </div>
+        <Button>Ver Detalles</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>id: {order.id}</DialogTitle>
-          <DialogDescription>Detalle de orden</DialogDescription>
+          <DialogTitle>{shop?.name}</DialogTitle>
+          <DialogDescription>Detalle del pedido</DialogDescription>
         </DialogHeader>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <h2 className="text-lg font-medium title-font mb-2">
-            Detalles del Pedido
+          <h2 className="text-3xl font-extrabold title-font mb-2 border-x-8 border-red-500 text-center">
+            Pedido {reduceUuid(order.id)}
           </h2>
-          <ul className="list-disc">
-            <li className="text-gray-500">ID: {order.id}</li>
-            <li className="text-gray-500">Monto Total: ${order.totalAmount}</li>
-            <li className="text-gray-500">Items Totales: {order.totalItems}</li>
-            <li className="text-gray-500">Estado: {order.status}</li>
-            <li className="text-gray-500">
-              Pagado: {order.paid ? 'Sí' : 'No'}
-            </li>
+          <p className="text-gray-500 text-sm text-right mt-0">
+            Hace {calcTime(order.createdAt)}
+          </p>
+          <div>
+            <div className="flex items-center">
+              <UserIcon className="h-7 w-7 m-2" />
+              <p className="text-sm">
+                <b className="text-red-500 text-md">Cliente</b> <br />
+                {order.guestName || order.user?.name}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <BikeIcon className="h-7 w-7 m-2" />
+              <p className="text-sm">
+                <b className="text-red-500 text-md">Repartidor</b> <br />
+                {repartidor.name}
+              </p>
+            </div>
+          </div>
+          <div className="w-full rounded-lg bg-slate-100 gap-1 my-2">
+            {items.map((item) => (
+              <div
+                key={item.productId}
+                className="flex items-center justify-around h-16"
+              >
+                <p className="font-bold text-red-500">{item.quantity} x</p>
+                <p className="font-bold">{item.name}</p>
+                <p className="font-semibold text-gray-500">${item.price}</p>
+              </div>
+            ))}
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between">
+            <p className="font-extrabold text-xl">Total</p>
+            <p className="text-gray-500"> ${order.totalAmount}</p>
+          </div>
+          <div>
+            <p>Pagado: {order.paid ? 'Sí' : 'No'}</p>
             {order.paidAt && (
               <li className="text-gray-500">
                 Pagado el: {new Date(order.paidAt).toLocaleString()}
               </li>
             )}
-            {order.stripeChargeId && (
-              <li className="text-gray-500">
-                ID de Cargo de Stripe: {order.stripeChargeId}
-              </li>
-            )}
-            <li className="text-gray-500">
-              Creado el: {new Date(order.createdAt).toLocaleString()}
-            </li>
-            <li className="text-gray-500">
-              Actualizado el: {new Date(order.updateAt).toLocaleString()}
-            </li>
-            {order.userId && (
-              <li className="text-gray-500">ID de Usuario: {order.userId}</li>
-            )}
-            <li className="text-gray-500">
-              Nombre del Invitado: {order.guestName}
-            </li>
-            <li className="text-gray-500">
-              Teléfono del Invitado: {order.guestPhone}
-            </li>
-            <li className="text-gray-500">
-              Dirección del Invitado: {order.guestAddress}
-            </li>
-            <li className="text-gray-500">
-              Método de Entrega: {order.deliveryMethod}
-            </li>
-          </ul>
-          <Button>Listo para entregar</Button>
+          </div>
         </div>
         <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
+          <Button type="button" variant="secondary">
+            Enviar
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

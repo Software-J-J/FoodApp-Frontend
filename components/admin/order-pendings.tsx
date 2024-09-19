@@ -1,6 +1,4 @@
 import { Order } from '@/libs/types'
-import React from 'react'
-import { Button } from '../ui/button'
 import { OrderDialog } from './order-dialog'
 
 export default function OrderPendings({ orders }: { orders: Order[] }) {

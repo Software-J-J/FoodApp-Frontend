@@ -126,11 +126,14 @@ export async function reportOrder(orderId: string, token: string) {
       headers: {
         Authorization: 'Bearer ' + token,
       },
+      responseType: 'blob',
     })
 
-    return report
+    const archivoPDF = new Blob([report.data], { type: 'application/pdf' })
+    const url = window.URL.createObjectURL(archivoPDF)
+    window.open(url)
   } catch (error) {
-    console.error('Error en actions al imprimir reporte', error)
+    console.error('¡Ups! Algo salió mal al buscar o ver el reporte:', error)
   }
 }
 

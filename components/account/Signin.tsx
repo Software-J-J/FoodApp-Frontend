@@ -91,7 +91,7 @@ export default function Signin() {
           <Button disabled={loginInProgress} type="submit">
             Entrar
           </Button>
-          <Button variant={'secondary'}>
+          <Button type="button" variant={'secondary'}>
             <Link href={'/register'}>Registrarse</Link>
           </Button>
         </div>

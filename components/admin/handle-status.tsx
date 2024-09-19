@@ -25,7 +25,12 @@ export default function HandleOrderStatus({ orderId, orderStatus }: Props) {
   }
 
   return (
-    <Button onClick={() => handleStatus(orderStatus)}>
+    <Button
+      onClick={(e) => {
+        e.stopPropagation()
+        handleStatus(orderStatus)
+      }}
+    >
       {status === 'PENDING'
         ? 'Pago recibido'
         : status === 'PAID'
