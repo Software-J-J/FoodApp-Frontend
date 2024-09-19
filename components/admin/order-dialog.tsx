@@ -10,51 +10,30 @@ import {
 } from '@/components/ui/dialog'
 import reduceUuid from '@/utils/short-id'
 import { UserIcon } from '@heroicons/react/24/outline'
-
-import { useShopStore } from '@/store/shop/shop-store'
 import { BikeIcon } from 'lucide-react'
 import { Separator } from '../ui/separator'
 import { calcTime } from '@/utils/calcTime'
-import { Order } from '@/libs/types'
+import useDetailOrder from '@/hooks/useDetailOrder'
+import LoadingComponent from '../shared/loading-component'
+import ErrorComponent from '../shared/error-component'
+import useShop from '@/hooks/useShop'
+import { token } from '@/utils/token'
+import { ItemOrder } from '@/libs/types'
 
 export function DetailOrder({ orderId }: { orderId: string }) {
-  const { shop } = useShopStore()
+  const { order, isLoading, isError } = useDetailOrder(orderId, token)
+  const { shopData } = useShop(order.businessId)
 
   const repartidor = { name: 'Hugo' }
 
-  const items = [
-    {
-      price: 2700,
-      productId: 2,
-      quantity: 5,
-      name: 'Lemon Pie',
-    },
-    {
-      price: 2400,
-      productId: 2,
-      quantity: 1,
-      name: 'Pastaflora',
-    },
-  ]
-
-  const order: Order = {
-    id: 'be3ebef0-c8af-4756-a126-bf5f6bcb0a90',
-    totalAmount: 13500,
-    totalItems: 5,
-    status: 'PENDING',
-    paid: false,
-    paidAt: null,
-    stripeChargeId: null,
-    createdAt: '2024-09-18T14:30:02.025Z',
-    updateAt: '2024-09-18T14:30:02.025Z',
-    userId: 'a9738e65-7397-4cee-aaa4-43668a99bcbe',
-    guestName: 'Papas owner',
-    guestPhone: '3437445403',
-    guestAddress: 'San Benito y Roca Mora',
-    deliveryMethod: 'PICKUP',
-    orderNumber: 3,
-    businessId: 'a63a5bfa-cd96-4f6b-8972-f654ef14f617',
+  if (isLoading) {
+    return <LoadingComponent />
   }
+
+  if (isError) {
+    return <ErrorComponent />
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -62,7 +41,7 @@ export function DetailOrder({ orderId }: { orderId: string }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{shop?.name}</DialogTitle>
+          <DialogTitle>{shopData.name}</DialogTitle>
           <DialogDescription>Detalle del pedido</DialogDescription>
         </DialogHeader>
         <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -89,7 +68,7 @@ export function DetailOrder({ orderId }: { orderId: string }) {
             </div>
           </div>
           <div className="w-full rounded-lg bg-slate-100 gap-1 my-2">
-            {items.map((item) => (
+            {order.OrderItem.map((item: ItemOrder) => (
               <div
                 key={item.productId}
                 className="flex items-center justify-around h-16"

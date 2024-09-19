@@ -1,5 +1,5 @@
 import { Order } from '@/libs/types'
-import { OrderDialog } from './order-dialog'
+import OrderCard from './order-card'
 
 export default function OrderPendings({ orders }: { orders: Order[] }) {
   const pendings = orders.filter((order) => order.status === 'PENDING')
@@ -10,7 +10,7 @@ export default function OrderPendings({ orders }: { orders: Order[] }) {
       </h1>
       <div className="border-2 mx-1 rounded-sm h-[90%]">
         {pendings.map((order) => (
-          <OrderDialog key={order.id} order={order} />
+          <OrderCard key={order.id} order={order} />
         ))}
       </div>
     </section>

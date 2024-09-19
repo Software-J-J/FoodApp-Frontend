@@ -13,6 +13,16 @@ export async function getAllProducts(businessId: string) {
   }
 }
 
+export async function getProductById(productId: string) {
+  try {
+    const response = await axios.get(`${sharedLink}/products/id/${productId}`)
+
+    return response.data || []
+  } catch (error) {
+    console.error('Error en actions al pedir producto:', error)
+  }
+}
+
 export async function getAllCategories() {
   try {
     const response = await axios.get(`${sharedLink}/category`)
@@ -52,9 +62,13 @@ export async function createOrder(
   }
 }
 
-export async function getOrderById(orderId: string) {
+export async function getOrderById(orderId: string, token: string) {
   try {
-    const order = await axios.get(`${sharedLink}/order/${orderId}`)
+    const order = await axios.get(`${sharedLink}/orders/${orderId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
 
     return order.data
   } catch (error) {

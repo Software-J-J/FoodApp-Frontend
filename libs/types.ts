@@ -153,3 +153,10 @@ export interface RegisterData extends LoginData {
   phone: string
   address: string
 }
+
+export interface ItemOrder {
+  name: string
+  price: number
+  productId: number
+  quantity: number
+}

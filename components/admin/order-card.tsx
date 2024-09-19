@@ -37,7 +37,6 @@ export default function OrderCard({ order }: { order: Order }) {
           <PrinterIcon />
         </Button>
         <DetailOrder orderId={order.id} />
-        <HandleOrderStatus orderId={order.id} orderStatus={order.status} />
       </div>
     </div>
   )
