@@ -18,15 +18,14 @@ export type Filters = {
   name: string
 }
 
-// export type Product = {
-//   id: number
-//   name: string
-//   description: string
-//   price: number
-//   image: string
-//   category: string
-//   available: boolean
-// }
+export type UserData = {
+  id: string
+  name: string
+  email: string
+  roles: UserRoles[]
+
+  businessId?: string
+}
 
 export interface ProductCart extends Product {
   quantity: number
@@ -140,4 +139,17 @@ export interface User {
 
   createdAt: Date
   updatedAt: Date
+}
+
+//TEMPORADA DE REFACTORIZACION
+
+export interface LoginData {
+  email: string
+  password: string
+}
+
+export interface RegisterData extends LoginData {
+  name: string
+  phone: string
+  address: string
 }

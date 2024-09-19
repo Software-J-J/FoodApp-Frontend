@@ -1,38 +1,37 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { FormEvent, useCallback, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { Button } from '../ui/button'
 import Header from '../products/head-container'
+import { logIn } from '@/libs/form-actions'
+import { LoginData } from '@/libs/types'
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState('')
+  const [loginInProgress, setLoginInProgress] = useState<boolean>(false)
+  const [userData, setUserData] = useState<LoginData>({
+    email: '',
+    password: '',
+  })
 
-  const router = useRouter()
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setUserData({
+      ...userData,
+      [name]: value,
+    })
+  }
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      const formData = new FormData(event.currentTarget)
-      const res = await signIn('credentials', {
-        email: formData.get('email'),
-        password: formData.get('password'),
-        redirect: false,
-      })
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-      if (res?.error) {
-        setError(res.error as string)
-      }
+    const formData = new FormData(event.currentTarget)
 
-      if (!res?.error) {
-        return router.push('/')
-      }
-    },
-    []
-  )
+    setLoginInProgress(true)
+    await logIn(formData)
+    setLoginInProgress(false)
+  }
 
   return (
     <form
@@ -52,6 +51,9 @@ export default function Signin() {
                 type="email"
                 placeholder="Email"
                 name="email"
+                value={userData.email}
+                onChange={handleChange}
+                disabled={loginInProgress}
               />
             </div>
           </div>
@@ -60,7 +62,7 @@ export default function Signin() {
         <div className="mb-4 flex flex-col items-center">
           <div className="secondDiv">
             <label htmlFor="password" className="labelForm">
-              Contrasena:
+              Contraseña:
             </label>
             <div className="relative">
               <input
@@ -68,6 +70,9 @@ export default function Signin() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
+                value={userData.password}
+                onChange={handleChange}
+                disabled={loginInProgress}
               />
             </div>
           </div>
@@ -79,12 +84,14 @@ export default function Signin() {
             }}
             type="button"
           >
-            {showPassword ? 'Esconder Contrasena' : 'Ver Contrasena'}
+            {showPassword ? 'Esconder Contraseña' : 'Ver Contraseña'}
           </Button>
         </div>
         <div className="flex flex-col gap-5">
-          <Button type="submit">Entrar</Button>
-          <Button variant={'secondary'}>
+          <Button disabled={loginInProgress} type="submit">
+            Entrar
+          </Button>
+          <Button type="button" variant={'secondary'}>
             <Link href={'/register'}>Registrarse</Link>
           </Button>
         </div>

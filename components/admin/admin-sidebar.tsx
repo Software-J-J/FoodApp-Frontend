@@ -12,16 +12,14 @@ import { Bars3Icon } from '@heroicons/react/24/outline'
 import { Separator } from '../ui/separator'
 import { Session } from 'next-auth'
 import { useUserStore } from '@/store/user/user-store'
-import UserNavLinks from './user-nav-links'
-import AdminNavLinks from '../admin/admin-links'
+import AdminNavLinks from './admin-links'
+import useShop from '@/hooks/useShop'
+import { useSession } from 'next-auth/react'
 
-interface Props {
-  session: Session
-}
-
-export default function SideAdminNav() {
-  const { user } = useUserStore()
-  const userRol = user?.roles
+export default function AdminSideBar() {
+  const { data } = useSession()
+  const { shopData, isLoading, isError } = useShop(data?.user.businessId!)
+  const userRol = data?.user.roles
   return (
     <Sheet>
       <SheetTrigger>
@@ -29,13 +27,13 @@ export default function SideAdminNav() {
       </SheetTrigger>
       <SheetContent side={'left'} className="flex flex-col justify-around">
         <SheetHeader>
-          <SheetTitle>Titulo del local</SheetTitle>
-          <SheetDescription></SheetDescription>
+          <SheetTitle>{shopData?.name}</SheetTitle>
+          <SheetDescription>Panel de administracion</SheetDescription>
           <Separator className="my-4" />
         </SheetHeader>
         <div className="grid gap-4 py-4">
           {userRol!! && userRol.includes('USER') ? (
-            <UserNavLinks />
+            <p>Usuario</p>
           ) : userRol!! && userRol.includes('ADMINISTRADOR') ? (
             <AdminNavLinks />
           ) : userRol!! && userRol.includes('DESARROLLADOR') ? (

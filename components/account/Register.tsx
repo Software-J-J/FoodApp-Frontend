@@ -1,46 +1,40 @@
 'use client'
 
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
-import { FormEvent, useCallback, useState } from 'react'
+import { ChangeEvent, FormEvent, useState } from 'react'
 import { Button } from '../ui/button'
 import Header from '../products/head-container'
-import axios, { AxiosError } from 'axios'
+import { RegisterData } from '@/libs/types'
+import { register } from '@/libs/form-actions'
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
+  const [registerInProgress, setRegisterInProgress] = useState<boolean>(false)
+  const [newUserData, setNewUserData] = useState<RegisterData>({
+    email: '',
+    password: '',
+    name: '',
+    phone: '',
+    address: '',
+  })
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault()
-      try {
-        const formData = new FormData(event.currentTarget)
-        const registerResponse = await axios.post(
-          'http://localhost:3010/api/auth/register',
-          {
-            email: formData.get('email'),
-            password: formData.get('password'),
-            name: formData.get('name'),
-            phone: formData.get('phone'),
-            address: formData.get('address'),
-          }
-        )
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    setNewUserData({
+      ...newUserData,
+      [name]: value,
+    })
+  }
 
-        await signIn('credentials', {
-          email: registerResponse.data.email,
-          password: formData.get('password'),
-          redirect: false,
-        })
-      } catch (error) {
-        console.log(error)
-        if (error instanceof AxiosError) {
-          const errorMessage = error.response?.data.message
-          console.error(errorMessage)
-        }
-      }
-    },
-    []
-  )
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+
+    setRegisterInProgress(true)
+    await register(formData)
+    setRegisterInProgress(false)
+  }
 
   return (
     <form
@@ -53,7 +47,7 @@ export default function Register() {
         <div className="mb-4">
           <div className="secondDiv">
             <label htmlFor="name" className="labelForm">
-              Tu nombre:
+              Nombre Completo:
             </label>
             <div className="relative">
               <input
@@ -61,6 +55,9 @@ export default function Register() {
                 type="text"
                 placeholder="Nombre"
                 name="name"
+                value={newUserData.name}
+                onChange={handleChange}
+                disabled={registerInProgress}
               />
             </div>
           </div>
@@ -75,8 +72,11 @@ export default function Register() {
               <input
                 className="inputForm"
                 type="email"
-                placeholder="Email"
+                placeholder="Correo Electronico"
                 name="email"
+                value={newUserData.email}
+                onChange={handleChange}
+                disabled={registerInProgress}
               />
             </div>
           </div>
@@ -85,19 +85,22 @@ export default function Register() {
         <div className="mb-4 flex flex-col items-center">
           <div className="secondDiv">
             <label htmlFor="password" className="labelForm">
-              Contrasena:
+              Contraseña:
             </label>
             <div className="relative">
               <input
                 className="inputForm"
                 type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
+                placeholder="Contraseña"
                 name="password"
+                value={newUserData.password}
+                onChange={handleChange}
+                disabled={registerInProgress}
               />
             </div>
           </div>
 
-          {/* aca va el repetir contrasena */}
+          {/* aca va el repetir Contraseña */}
 
           <Button
             variant={'link'}
@@ -107,7 +110,7 @@ export default function Register() {
             }}
             type="button"
           >
-            {showPassword ? 'Esconder Contrasena' : 'Ver Contrasena'}
+            {showPassword ? 'Esconder Contraseña' : 'Ver Contraseña'}
           </Button>
         </div>
 
@@ -122,6 +125,9 @@ export default function Register() {
                 type="text"
                 placeholder="Telefono"
                 name="phone"
+                value={newUserData.phone}
+                onChange={handleChange}
+                disabled={registerInProgress}
               />
             </div>
           </div>
@@ -138,14 +144,19 @@ export default function Register() {
                 type="text"
                 placeholder="Direccion"
                 name="address"
+                value={newUserData.address}
+                onChange={handleChange}
+                disabled={registerInProgress}
               />
             </div>
           </div>
         </div>
 
         <div className="flex flex-col gap-5">
-          <Button type="submit">Registrarse</Button>
-          <Button variant={'secondary'}>
+          <Button disabled={registerInProgress} type="submit">
+            Registrarse
+          </Button>
+          <Button type="button" variant={'secondary'}>
             <Link href={'/login'}>Iniciar sesion</Link>
           </Button>
         </div>

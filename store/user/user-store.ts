@@ -1,14 +1,5 @@
-import { UserRoles } from '@/libs/types'
+import { UserData } from '@/libs/types'
 import { create } from 'zustand'
-
-type UserData = {
-  id: string
-  name: string
-  email: string
-  roles: UserRoles[]
-
-  businessId?: string
-}
 
 interface State {
   user: UserData | null | undefined

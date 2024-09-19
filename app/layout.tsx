@@ -7,11 +7,12 @@ import { authOptions } from '@/libs/auth'
 
 import Navbar from '@/components/shared/navbar'
 import Providers from '@/providers/Providers'
+require('dotenv').config()
 
 export const metadata: Metadata = {
   title: {
     template: '%s | Pedilo',
-    default: 'Pedilo',
+    default: 'Pedilo App',
   },
   description: 'App de gestion de pedidos',
 }

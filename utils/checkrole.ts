@@ -1,17 +1,13 @@
 import { UserRoles } from '@/libs/types'
 
-interface Props {
-  roles: UserRoles[]
-}
-
-export const isUser = ({ roles }: Props) => {
+export const isUser = (roles: UserRoles[]) => {
   return roles.includes('USER')
 }
 
-export const isAdmin = ({ roles }: Props) => {
+export const checkAdmin = (roles: UserRoles[]) => {
   return roles.includes('ADMINISTRADOR')
 }
 
-export const isDev = ({ roles }: Props) => {
+export const checkDev = (roles: UserRoles[]) => {
   return roles.includes('DESARROLLADOR')
 }

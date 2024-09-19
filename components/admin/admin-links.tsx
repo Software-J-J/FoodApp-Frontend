@@ -7,11 +7,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const links = [
-  { name: 'Tablero', href: `/` },
+  { name: 'Inicio', href: `/` },
   { name: '- Pedidos -', href: `/orders` },
   { name: '- Menu -', href: `/menu` },
   { name: ' - Agregar empleado - ', href: `/employ` },
-  { name: 'Finanzas', href: `/` },
 ]
 
 export default function AdminNavLinks() {
