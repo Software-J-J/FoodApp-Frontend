@@ -46,10 +46,9 @@ export default function useDetailOrder(orderId: string, token: string) {
     },
   })
 
-  // status es mas visual
-  // paid es relevante pq guarda el valor en las ganancias
-
-  // const updateListAfterClose = useMutation({})
+  const invalidateOrdersQuerys = () => {
+    queryClient.invalidateQueries({ queryKey: ['orders'] })
+  }
 
   return {
     order: data,
@@ -57,5 +56,6 @@ export default function useDetailOrder(orderId: string, token: string) {
     isError,
     updateOrderStatusMutation,
     updateOrderPaid,
+    invalidateOrdersQuerys,
   }
 }

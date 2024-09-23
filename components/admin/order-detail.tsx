@@ -21,12 +21,6 @@ import { ItemOrder, OrderStatus } from '@/libs/types'
 import { useShopStore } from '@/store/shop/shop-store'
 import OrderDetailStatus from './order-detail-status'
 
-type Props = {
-  orderId: string
-  newStatus: OrderStatus
-  token: string
-}
-
 export function DetailOrder({ orderId }: { orderId: string }) {
   const { order, isLoading, isError } = useDetailOrder(orderId, token)
   const { shop } = useShopStore()
