@@ -15,10 +15,19 @@ import { useUserStore } from '@/store/user/user-store'
 import AdminNavLinks from './admin-links'
 import useShop from '@/hooks/useShop'
 import { useSession } from 'next-auth/react'
+import { useShopStore } from '@/store/shop/shop-store'
+import { useEffect } from 'react'
 
 export default function AdminSideBar() {
   const { data } = useSession()
   const { shopData, isLoading, isError } = useShop(data?.user.businessId!)
+
+  const { setShop } = useShopStore()
+
+  useEffect(() => {
+    setShop(shopData)
+  }, [shopData])
+
   const userRol = data?.user.roles
   return (
     <Sheet>

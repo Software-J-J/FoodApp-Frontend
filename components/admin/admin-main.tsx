@@ -6,10 +6,11 @@ import MainTitle from '@/components/products/main-title'
 import useOrders from '@/hooks/useOrders'
 import useShop from '@/hooks/useShop'
 import { useSession } from 'next-auth/react'
-import { redirect, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { token } from '@/utils/token'
 import LoadingComponent from '../shared/loading-component'
 import ErrorComponent from '../shared/error-component'
+import CreateOrder from '../developer/create-order'
 
 export default function AdminMain() {
   const params = useParams()
@@ -45,6 +46,8 @@ export default function AdminMain() {
       <h1 className="w-full text-center font-bold text-gray-500 mt-2">
         Panel de admin
       </h1>
+
+      <CreateOrder />
       <MainTitle title={shopData.name} />
 
       <OrderPendings orders={orders.data} />

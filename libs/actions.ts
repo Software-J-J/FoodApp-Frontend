@@ -13,6 +13,16 @@ export async function getAllProducts(businessId: string) {
   }
 }
 
+export async function getProductById(productId: string) {
+  try {
+    const response = await axios.get(`${sharedLink}/products/id/${productId}`)
+
+    return response.data || []
+  } catch (error) {
+    console.error('Error en actions al pedir producto:', error)
+  }
+}
+
 export async function getAllCategories() {
   try {
     const response = await axios.get(`${sharedLink}/category`)
@@ -52,9 +62,13 @@ export async function createOrder(
   }
 }
 
-export async function getOrderById(orderId: string) {
+export async function getOrderById(orderId: string, token: string) {
   try {
-    const order = await axios.get(`${sharedLink}/order/${orderId}`)
+    const order = await axios.get(`${sharedLink}/orders/${orderId}`, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    })
 
     return order.data
   } catch (error) {
@@ -117,6 +131,26 @@ export async function changeOrderStatus(
     return nextStep
   } catch (error) {
     console.error('Error en actions al modificar order: ', error)
+  }
+}
+
+export async function changeOrderPaid(orderId: string, token: string) {
+  try {
+    const paidOrder = await axios.patch(
+      `${sharedLink}/orders/paid/${orderId}`,
+      {
+        paid: true,
+      },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return paidOrder
+  } catch (error) {
+    console.error('Error en actions al modificar paid order: ', error)
   }
 }
 
@@ -297,5 +331,22 @@ export async function deleteCategory({
     return deletedCategory
   } catch (error) {
     console.error('Error en actions al borrar categoria', error)
+  }
+}
+
+export async function getOrderHistory(orderId: string, token: string) {
+  try {
+    const orderHistory = await axios.get(
+      `${sharedLink}/orders/status/${orderId}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return orderHistory
+  } catch (error) {
+    console.error('Error en actions al traer historial', error)
   }
 }

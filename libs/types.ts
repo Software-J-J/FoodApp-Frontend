@@ -67,7 +67,14 @@ export type Category = {
   status: boolean
 }
 
-export type OrderStatus = 'PENDING' | 'PAID' | 'DELIVERED' | 'CANCELLED'
+export type OrderStatus =
+  | 'PENDING'
+  | 'PAID'
+  | 'PREPARED'
+  | 'DELIVERED'
+  | 'CANCELLED'
+  | 'ACCEPTED'
+  | 'COMPLETED'
 
 export type UserRoles =
   | 'DESARROLLADOR'
@@ -152,4 +159,19 @@ export interface RegisterData extends LoginData {
   name: string
   phone: string
   address: string
+}
+
+export interface ItemOrder {
+  name: string
+  price: number
+  productId: number
+  quantity: number
+}
+
+export interface OrderHistory {
+  id: string
+  orderId: string
+  status: OrderStatus
+  changedAt: Date
+  changedBy: Date
 }
