@@ -7,7 +7,7 @@ import HandleOrderStatus from './handle-status'
 import { Order } from '@/libs/types'
 import { reportOrder } from '@/libs/actions'
 import { token } from '@/utils/token'
-import { DetailOrder } from './order-dialog'
+import { DetailOrder } from './order-detail'
 
 export default function OrderCard({ order }: { order: Order }) {
   const handlePrint = (ev: any) => {

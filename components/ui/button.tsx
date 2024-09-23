@@ -20,12 +20,15 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         inventory:
           'min-w-80 rounded bg-red-500 text-white flex items-center justify-around h-16 my-2 shadow-lg',
+        accept: 'bg-green-500 text-white border-green-400',
+        deny: 'bg-red-500 text-white border-red-400',
       },
       size: {
         default: 'h-10 px-4 py-2',
         sm: 'h-9 rounded-md px-3',
         lg: 'h-11 rounded-md px-8',
         icon: 'h-10 w-10',
+        full: 'w-full h-10',
       },
     },
     defaultVariants: {
