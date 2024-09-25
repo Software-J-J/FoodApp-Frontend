@@ -6,10 +6,24 @@
 // - Componetizar el input de image por algo mas estilizado
 // - Que al submitear se limpie el form y muestre un cartel de Done, volver a menu? Agregar otro producto
 
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { Button } from '../ui/button'
-import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import LoadingComponent from '../shared/loading-component'
+import { createProduct } from '@/libs/form-actions'
+import { token } from '@/utils/token'
+import useCategories from '@/hooks/useCategories'
+import ErrorComponent from '../shared/error-component'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select'
+import { Category } from '@/libs/types'
+import EditImage from '../shared/editable-image'
+import CreateCategory from '../admin/create-category'
 
 interface FormData {
   name: string
@@ -20,40 +34,46 @@ interface FormData {
 }
 
 export default function ProductForm() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession() // EJEMPLO DE COMO USAR EL TOKEN BIEN
+  const { categories, isLoading, isError } = useCategories()
 
-  const [formData, setFormData] = useState<FormData>({
+  const [newProduct, setNewProduct] = useState<FormData>({
     name: '',
     description: '',
     category: '',
     price: '',
     image: null,
   })
+  const [submitProgress, setSubmitProgress] = useState<boolean>(false)
 
   const [imagePreview, setImagePreview] = useState<string | null>(null)
 
-  if (status === 'loading') {
-    return <p>Cargando...</p>
+  if (status === 'loading' || isLoading) {
+    return <LoadingComponent />
+  }
+
+  if (isError) {
+    return <ErrorComponent />
   }
 
   if (!session) {
     return <p>Debes iniciar sesion</p>
   }
 
-  const token = session?.accessToken
+  // const token = session?.accessToken
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData((prevData) => ({
+    setNewProduct((prevData) => ({
       ...prevData,
       [name]: value,
     }))
   }
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prevData) => ({
+  const handleCategoryChange = (value: string) => {
+    setNewProduct((prevData) => ({
       ...prevData,
-      price: e.target.value,
+      category: value,
     }))
   }
 
@@ -61,7 +81,7 @@ export default function ProductForm() {
     const file = e.target.files?.[0]
 
     if (file) {
-      setFormData((prevData) => ({
+      setNewProduct((prevData) => ({
         ...prevData,
         image: file,
       }))
@@ -72,45 +92,28 @@ export default function ProductForm() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-    // console.log de los valores cargados al form y guardados en el estado local
-    console.log('Datos del formulario:', formData)
-    console.log(token)
-
-    //validacion data del form
-    const formDataTwo = new FormData()
-    formDataTwo.append('name', formData.name)
-    formDataTwo.append('description', formData.description)
-    formDataTwo.append('category', formData.category)
-    formDataTwo.append('price', formData.price)
-    if (formData.image) {
-      formDataTwo.append('image', formData.image)
+    const formData = new FormData()
+    formData.append('name', newProduct.name)
+    formData.append('description', newProduct.description)
+    formData.append('category', newProduct.category)
+    formData.append('price', newProduct.price)
+    if (newProduct.image) {
+      formData.append('image', newProduct.image)
     }
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3010/api/products',
-        formDataTwo,
-        {
-          headers: {
-            // 'Content-Type': 'application/json', esto rompe el form
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      )
-      console.log('Respuesta del servidor:', response)
-    } catch (error) {
-      console.error('Error al enviar el formulario:', error)
-    }
+    setSubmitProgress(true)
+    await createProduct(formData, token!)
+    setSubmitProgress(false)
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="max-w-72 mx-auto mt-5">
       <div className="mb-4">
         <label htmlFor="name" className="labelForm">
-          Name:
+          Nombre del producto:
         </label>
         <div className="secondDiv">
           <div className="relative">
@@ -118,7 +121,7 @@ export default function ProductForm() {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
+              value={newProduct.name}
               onChange={handleChange}
               className="inputForm"
             />
@@ -127,7 +130,7 @@ export default function ProductForm() {
       </div>
       <div className="mb-4">
         <label htmlFor="description" className="labelForm">
-          Description:
+          Descripcion:
         </label>
         <div className="secondDiv">
           <div className="relative">
@@ -135,7 +138,7 @@ export default function ProductForm() {
               type="text"
               id="description"
               name="description"
-              value={formData.description}
+              value={newProduct.description}
               onChange={handleChange}
               className="inputForm"
             />
@@ -144,24 +147,25 @@ export default function ProductForm() {
       </div>
       <div className="mb-4">
         <label htmlFor="category" className="labelForm">
-          Category:
+          Categoria:
         </label>
-        <div className="secondDiv">
-          <div className="relative">
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              className="inputForm"
-            />
-          </div>
-        </div>
+        <Select onValueChange={(value) => handleCategoryChange(value)}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Categoria" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map((cat: Category) => (
+              <SelectItem key={cat.id} value={cat.name}>
+                {cat.name}
+              </SelectItem>
+            ))}
+            <CreateCategory />
+          </SelectContent>
+        </Select>
       </div>
       <div className="mb-4">
         <label htmlFor="price" className="labelForm">
-          Price:
+          Precio por unidad:
         </label>
         <div className="secondDiv">
           <div className="relative">
@@ -169,39 +173,28 @@ export default function ProductForm() {
               type="number"
               id="price"
               name="price"
-              value={formData.price}
-              onChange={handlePriceChange}
+              value={newProduct.price}
+              onChange={handleChange}
               className="inputForm"
             />
           </div>
         </div>
       </div>
-      <div className="mb-4">
-        <label htmlFor="image" className="labelForm">
-          Image:
-        </label>
-        <div className="secondDiv">
-          <div className="relative">
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={handleFileChange}
-            />
-          </div>
-        </div>
-        {imagePreview && (
-          <div className="mt-2">
-            <img
-              src={imagePreview}
-              alt="Vista previa"
-              className="w-32 h-32 object-cover border border-gray-300 rounded-md"
-            />
-          </div>
-        )}
+      <div className="w-60 min-h-60 mx-auto">
+        <EditImage
+          labelText="Elegir imagen"
+          link={imagePreview}
+          handleFile={handleFileChange}
+        />
       </div>
-      <Button type="submit" variant={'inventory'}>
-        Submit
+
+      <Button
+        disabled={submitProgress}
+        type="submit"
+        variant={'inventory'}
+        className="w-72"
+      >
+        Crear Nuevo Producto
       </Button>
     </form>
   )

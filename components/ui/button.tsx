@@ -19,7 +19,7 @@ const buttonVariants = cva(
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         inventory:
-          'min-w-80 rounded bg-red-500 text-white flex items-center justify-around h-16 my-2 shadow-lg',
+          'rounded bg-red-500 text-white flex items-center justify-around h-16 my-2 shadow-lg',
         accept: 'bg-green-500 text-white border-green-400',
         deny: 'bg-red-500 text-white border-red-400',
       },

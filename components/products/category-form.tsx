@@ -1,21 +1,23 @@
 'use client'
 
-import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { Button } from '../ui/button'
+import { createCategory } from '@/libs/form-actions'
+import { token } from '@/utils/token'
 
 interface DataForm {
   name: string
 }
 
 export default function CategoryForm() {
-  const { data: session } = useSession()
+  // const { data: session } = useSession()
+  const [submiting, setSubmiting] = useState<boolean>(false)
   const [dataForm, setDataForm] = useState<DataForm>({
     name: '',
   })
 
-  const token = session?.accessToken
+  // const token = session?.accessToken
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -27,6 +29,7 @@ export default function CategoryForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    e.stopPropagation()
 
     console.log('Datos del formulario:', dataForm)
 
@@ -34,27 +37,16 @@ export default function CategoryForm() {
     const formData = new FormData()
     formData.append('name', dataForm.name)
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3010/api/category',
-        { name: dataForm.name },
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      )
-      console.log('Respuesta del servidor:', response)
-    } catch (error) {
-      console.error('Error al enviar el formulario:', error)
-    }
+    setSubmiting(true)
+    await createCategory(formData, token!)
+    setSubmiting(false)
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
-        <label htmlFor="name" className="labelForm">
-          Name:
+        <label htmlFor="name" className="labelForm text-left">
+          Nombre:
         </label>
         <div className="secondDiv">
           <div className="relative">
@@ -69,8 +61,13 @@ export default function CategoryForm() {
           </div>
         </div>
       </div>
-      <Button type="submit" variant={'inventory'}>
-        Submit
+      <Button
+        disabled={submiting}
+        type="submit"
+        variant={'inventory'}
+        className="w-full"
+      >
+        Crear Categoria
       </Button>
     </form>
   )

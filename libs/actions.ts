@@ -5,9 +5,9 @@ const sharedLink = 'http://localhost:3010/api'
 
 export async function getAllProducts(businessId: string) {
   try {
-    const response = await axios.get(`${sharedLink}/products/${businessId}`)
+    const products = await axios.get(`${sharedLink}/products/${businessId}`)
 
-    return response.data || []
+    return products.data || []
   } catch (error) {
     console.error('Error en actions al pedir los productos:', error)
   }
