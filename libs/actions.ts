@@ -23,9 +23,9 @@ export async function getProductById(productId: string) {
   }
 }
 
-export async function getAllCategories() {
+export async function getAllCategories(businessId: string) {
   try {
-    const response = await axios.get(`${sharedLink}/category`)
+    const response = await axios.get(`${sharedLink}/category/${businessId}`)
 
     return response.data || []
   } catch (error) {
@@ -354,7 +354,7 @@ export async function getOrderHistory(orderId: string, token: string) {
 export async function getProductsByCategory(categoryId: string) {
   try {
     const categoryArray = await axios.get(
-      `${sharedLink}/category/${categoryId}`
+      `${sharedLink}/category/id/${categoryId}`
     )
 
     return categoryArray.data

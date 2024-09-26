@@ -10,7 +10,10 @@ export default function useProducts(businessId: string) {
         queryKey: ['products', { businessId }],
         queryFn: () => getAllProducts(businessId),
       },
-      { queryKey: ['categories'], queryFn: () => getAllCategories() },
+      {
+        queryKey: ['categories', { businessId }],
+        queryFn: () => getAllCategories(businessId),
+      },
     ],
     combine: (queries) => {
       const isLoading = queries.some((query) => query.status === 'pending')
