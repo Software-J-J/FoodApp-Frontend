@@ -1,15 +1,16 @@
 'use client'
 
-import Inventory from '@/components/admin/inventory'
-import Title from '@/components/admin/title'
-
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import useProducts from '@/hooks/useProducts'
 import { useSession } from 'next-auth/react'
-import { Category, Product } from '@/libs/types'
 import { usePathname } from 'next/navigation'
-import Section from '@/components/admin/section'
+
+import useProducts from '@/hooks/useProducts'
+import { Category } from '@/libs/types'
+
+import Title from '@/components/admin/title'
+import CreateButton from '@/components/admin/create-button'
+import InventoryAccordion from '@/components/admin/inventory-accordion'
+import LoadingComponent from '@/components/shared/loading-component'
+import ErrorComponent from '@/components/shared/error-component'
 
 export default function Page() {
   const pathname = usePathname()
@@ -21,36 +22,29 @@ export default function Page() {
   const { products, categories, isLoading, isError } = useProducts(businessId!)
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return <LoadingComponent />
   }
 
   if (isError) {
-    return <p>Algo salio mal</p>
+    return <ErrorComponent />
   }
 
-  const productos: Product[] = products.data
-
   return (
-    <main className="flex flex-col justify-between items-center h-[80vh]">
-      <section>
-        <Title titleProp={'Menu'} />
+    <main className="flex flex-col justify-between items-center w-full min-h-[80vh] pt-5">
+      <section className="w-full p-4">
+        <div className="border-l-4 border-b-4 border-black my-2 pl-2">
+          <Title titleProp={'Menu'} />
+        </div>
+        <div className="border-2 rounded-md p-4 min-h-[50vh]">
+          {categories.map((cat: Category) => (
+            <InventoryAccordion key={cat.id} category={cat} />
+          ))}
+        </div>
+      </section>
 
-        <Inventory title="Todos los productos" products={productos} />
-      </section>
-      <section>
-        <Title titleProp="Categorias" />
-        {categories.map((cat: Category) => (
-          <Section title={cat.name} count={+cat.id} key={cat.id} />
-        ))}
-      </section>
-      <section>
-        <Link href={`${pathname}/create`}>
-          <Button variant={'inventory'}>Agregar producto al menu</Button>
-        </Link>
-        <Link href={`${pathname}/create-cat`}>
-          <Button variant={'inventory'}>Agregar categoria nueva</Button>
-        </Link>
-      </section>
+      <div className="w-full flex justify-end">
+        <CreateButton pathname={pathname} />
+      </div>
     </main>
   )
 }

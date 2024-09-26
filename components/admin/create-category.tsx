@@ -11,14 +11,14 @@ import {
 import { Button } from '../ui/button'
 import CategoryForm from '../products/category-form'
 
-export default function CreateCategory() {
+export default function CreateCategory({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
     <Dialog>
-      <DialogTrigger className="w-full">
-        <Button className="mt-1 w-full bg-sky-100 text-gray-500">
-          Crear nueva categoria
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger className="w-full">{children}</DialogTrigger>
       <DialogContent className="w-60 rounded-xl">
         <DialogHeader>
           <DialogTitle>Nueva categoria</DialogTitle>

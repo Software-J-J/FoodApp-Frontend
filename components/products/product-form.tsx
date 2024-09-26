@@ -159,7 +159,11 @@ export default function ProductForm() {
                 {cat.name}
               </SelectItem>
             ))}
-            <CreateCategory />
+            <CreateCategory>
+              <Button className="mt-1 w-full bg-sky-100 text-gray-500">
+                Crear nueva categoria
+              </Button>
+            </CreateCategory>
           </SelectContent>
         </Select>
       </div>

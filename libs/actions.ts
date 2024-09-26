@@ -350,3 +350,18 @@ export async function getOrderHistory(orderId: string, token: string) {
     console.error('Error en actions al traer historial', error)
   }
 }
+
+export async function getProductsByCategory(categoryId: string) {
+  try {
+    const categoryArray = await axios.get(
+      `${sharedLink}/category/${categoryId}`
+    )
+
+    return categoryArray.data
+  } catch (error) {
+    console.error(
+      'Error en actions al pedir los productos por categoria:',
+      error
+    )
+  }
+}

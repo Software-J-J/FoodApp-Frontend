@@ -17,9 +17,10 @@ import { InventoryItem } from './inventory-item'
 type Props = {
   title: string
   products: Product[]
+  filter?: string
 }
 
-export default function Inventory({ title, products }: Props) {
+export default function Inventory({ title, products, filter }: Props) {
   return (
     <div>
       <Sheet>
