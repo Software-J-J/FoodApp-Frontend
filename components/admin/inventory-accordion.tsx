@@ -9,6 +9,8 @@ import { Category } from '@/libs/types'
 import LoadingComponent from '../shared/loading-component'
 import ErrorComponent from '../shared/error-component'
 import { Switch } from '../ui/switch'
+import { token } from '@/utils/token'
+import ConfirmModal from './confirm-modal'
 
 type ProductInventory = {
   id: string
@@ -25,7 +27,8 @@ export default function InventoryAccordion({
 }) {
   const { id, name, status } = category
 
-  const { categoryProducts, isLoading, isError } = useCategoriesProducts(id)
+  const { categoryProducts, updateAssetProduct, isLoading, isError } =
+    useCategoriesProducts(id)
 
   if (isLoading) {
     return <LoadingComponent />
@@ -34,6 +37,13 @@ export default function InventoryAccordion({
   if (isError) {
     return <ErrorComponent />
   }
+
+  const productsOrdered = categoryProducts.products.sort((a: any, b: any) => {
+    if (a.asset && b.asset) {
+      return a.name.localeCompare(b.name)
+    }
+    return b.asset - a.asset
+  })
 
   return (
     <Accordion type="multiple">
@@ -47,25 +57,46 @@ export default function InventoryAccordion({
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          {categoryProducts.products.map(
-            (product: ProductInventory, idx: string) => (
-              <InventoryCardProduct key={idx} product={product} />
-            )
-          )}
+          {productsOrdered.map((product: ProductInventory, idx: string) => (
+            <InventoryCardProduct key={idx} product={product} categoryId={id} />
+          ))}
         </AccordionContent>
       </AccordionItem>
     </Accordion>
   )
 }
 
-function InventoryCardProduct({ product }: { product: ProductInventory }) {
+function InventoryCardProduct({
+  product,
+  categoryId,
+}: {
+  product: ProductInventory
+  categoryId: string
+}) {
+  const { updateAssetProduct } = useCategoriesProducts(categoryId)
+
+  const handleAsset = () => {
+    updateAssetProduct.mutate({
+      productId: +product.id,
+      newData: { id: product.id, asset: !product.asset },
+      token,
+    })
+  }
   return (
     <div className="border-2 rounded-md m-2 p-2 flex justify-between items-center mx-2">
       <div>
         <h1 className="font-bold">{product.name}</h1>
         <p className="text-xs text-gray-500">${product.price}</p>
       </div>
-      <Switch className="bg-red-600" checked={product.asset} />
+      <ConfirmModal
+        onConfirm={handleAsset}
+        message={`Quieres ${
+          product.asset ? 'desactivar' : 'activar'
+        } este producto?`}
+        subTitle={product.name}
+      >
+        <Switch className="bg-red-600" checked={product.asset} />
+      </ConfirmModal>
     </div>
   )
 }

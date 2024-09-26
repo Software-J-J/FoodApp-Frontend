@@ -240,18 +240,15 @@ export async function updateBusiness({
   }
 }
 
-export async function updateProduct({
-  productId,
-  newData,
-  token,
-}: {
-  productId: string
-  newData: any
+export async function updateProduct(
+  productId: number,
+  newData: any,
   token: string
-}) {
+) {
   try {
     const updatedProduct = await axios.patch(
       `${sharedLink}/products/${productId}`,
+      newData,
       {
         headers: {
           Authorization: 'Bearer ' + token,
