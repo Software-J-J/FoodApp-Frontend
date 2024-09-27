@@ -362,3 +362,13 @@ export async function getProductsByCategory(categoryId: string) {
     )
   }
 }
+
+export function getAllEmployees(businessId: string, token: string) {
+  try {
+    const employeeList = axios.get(`${sharedLink}/`)
+
+    return employeeList
+  } catch (error) {
+    console.error()
+  }
+}

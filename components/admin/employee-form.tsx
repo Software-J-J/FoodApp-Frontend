@@ -46,7 +46,7 @@ export default function EmployeeForm() {
     phone: '',
     address: '',
     roles: [],
-    businessId: shop?.id!,
+    businessId: '',
   })
 
   if (status === 'loading') {
@@ -77,7 +77,7 @@ export default function EmployeeForm() {
     formData.append('name', newEmployee.name)
     formData.append('phone', newEmployee.phone)
     formData.append('address', newEmployee.address)
-    formData.append('businessId', newEmployee.businessId)
+    formData.append('businessId', session!.user.businessId!)
 
     setRegisterInProgress(true)
     await registerEmployee(formData, newEmployee.roles)
@@ -191,7 +191,7 @@ export default function EmployeeForm() {
       </div>
 
       <Select onValueChange={(value) => handleRoleChange(value as UserRoles)}>
-        <SelectTrigger className="w-3/4" type="button">
+        <SelectTrigger className="w-60" type="button">
           <SelectValue placeholder="Elegir Rol" />
         </SelectTrigger>
         <SelectContent>
