@@ -1,10 +1,11 @@
-import RegisterEmployee from '@/components/admin/register-employee'
-import React from 'react'
+import EmployeeForm from '@/components/admin/employee-form'
+import Header from '@/components/products/head-container'
 
 export default function page() {
   return (
     <div>
-      <RegisterEmployee />
+      <Header title="Crear cuenta de empleado" />
+      <EmployeeForm />
     </div>
   )
 }

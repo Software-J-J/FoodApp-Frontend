@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { signIn } from 'next-auth/react'
+import { UserRoles } from './types'
 
 const sharedLink = 'http://localhost:3010/api'
 
@@ -25,6 +26,7 @@ export async function register(formData: FormData) {
     name: formData.get('name'),
     phone: formData.get('phone'),
     address: formData.get('address'),
+    roles: ['USER'],
   }
 
   try {
@@ -37,6 +39,26 @@ export async function register(formData: FormData) {
     })
   } catch (error) {
     console.error('Error en action de register: ', error)
+  }
+}
+
+export async function registerEmployee(formData: FormData, roles: UserRoles[]) {
+  const newEmplyee = {
+    email: formData.get('email'),
+    password: formData.get('password'),
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    businessId: formData.get('businessId'),
+    roles,
+  }
+
+  try {
+    const response = await axios.post(`${sharedLink}/auth/register`, newEmplyee)
+
+    return response
+  } catch (error) {
+    console.error('Error en action de register employee: ', error)
   }
 }
 

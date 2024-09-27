@@ -27,8 +27,7 @@ export default function InventoryAccordion({
 }) {
   const { id, name, status } = category
 
-  const { categoryProducts, updateAssetProduct, isLoading, isError } =
-    useCategoriesProducts(id)
+  const { categoryProducts, isLoading, isError } = useCategoriesProducts(id)
 
   if (isLoading) {
     return <LoadingComponent />
