@@ -363,12 +363,22 @@ export async function getProductsByCategory(categoryId: string) {
   }
 }
 
-export function getAllEmployees(businessId: string, token: string) {
+export async function getAllEmployees(businessId: string, token: string) {
   try {
-    const employeeList = axios.get(`${sharedLink}/`)
+    const employeeList = await axios.get(
+      `${sharedLink}/auth/a63a5bfa-cd96-4f6b-8972-f654ef14f617`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
 
-    return employeeList
+    return employeeList.data
   } catch (error) {
-    console.error()
+    console.error(
+      'Error en actions al pedir los employees del business:',
+      error
+    )
   }
 }
