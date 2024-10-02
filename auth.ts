@@ -30,16 +30,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           const checkCredentials = await axios.post(
             `${deployLink}/auth/login`,
-            parsedCredentials
+            {
+              email: credentials?.email,
+              password: credentials?.password,
+            }
           )
 
           const { user, token } = checkCredentials.data
 
           // Saving token on localStorage
-          const localStorageToken = localStorage.setItem('authToken', token)
+          // const localStorageToken = localStorage.setItem('authToken', token)
 
           // TODO: borrar esto cuando ya funcione
-          console.log(localStorageToken)
+          // console.log(localStorageToken)
 
           return user
         } catch (error) {
@@ -59,7 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (pathname.startsWith('/auth/signin')) {
         if (isLoggedIn) {
-          return Response.redirect(new URL('/', nextUrl))
+          // return Response.redirect(new URL('/', nextUrl))
         }
 
         return true
