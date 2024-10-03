@@ -1,22 +1,23 @@
 import Image from 'next/image'
 
 type Props = {
-  link: any
-  setLink: any
+  labelText: string
+  link: string | null
+  handleFile: (e: React.ChangeEvent<any>) => void
 }
 
-export default function EditableImage({ link, setLink }: Props) {
-  const handleFileChange = async (ev: any) => {
-    const files = ev.target.files
-    setLink(files[0])
-    console.log('image changed')
-  }
-
+export default function EditImage({ labelText, link, handleFile }: Props) {
   return (
     <>
+      <label>
+        <input type="file" className="hidden" onChange={handleFile} />
+        <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
+          {labelText}
+        </span>
+      </label>
       {link && (
         <Image
-          className="rounded-lg w-full h-full mb-1"
+          className="rounded-lg w-full h-full my-1"
           src={link}
           width={250}
           height={250}
@@ -25,15 +26,9 @@ export default function EditableImage({ link, setLink }: Props) {
       )}
       {!link && (
         <div className=" text-center bg-gray-200 p-4 text-gray-500 rounded-lg mb-1">
-          No image
+          ?
         </div>
       )}
-      <label>
-        <input type="file" className="hidden" onChange={handleFileChange} />
-        <span className="block border border-gray-300 rounded-lg p-2 text-center cursor-pointer">
-          Change image
-        </span>
-      </label>
     </>
   )
 }

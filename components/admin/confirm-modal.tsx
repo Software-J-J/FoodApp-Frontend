@@ -14,16 +14,22 @@ type Props = {
   onConfirm: () => void
   message: string
   children: React.ReactNode
+  subTitle?: string
 }
 
-export default function ConfirmModal({ onConfirm, message, children }: Props) {
+export default function ConfirmModal({
+  onConfirm,
+  message,
+  children,
+  subTitle,
+}: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{message}</AlertDialogTitle>
-          <AlertDialogDescription>{/* descripcion */}</AlertDialogDescription>
+          <AlertDialogDescription>{subTitle}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>

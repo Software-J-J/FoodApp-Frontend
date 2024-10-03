@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { signOut, useSession } from 'next-auth/react'
-import { Session } from 'next-auth'
 import { Button } from '../ui/button'
 import {
   DropdownMenu,
@@ -11,17 +9,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useUserStore } from '@/store/user/user-store'
+import { handleSignOut } from '@/actions/authActions'
 
-interface Props {
-  session: Session | null
-}
-
-export default function SessionMenu() {
-  const { user } = useUserStore()
-  const userRol = user?.roles
+export default function SessionMenu({ user }: { user: any }) {
+  const userRol = user?.roles[0]
 
   if (user === null || user === undefined) {
-    return <p>null</p>
+    return <p>Error getting user</p>
   }
 
   return (
@@ -32,7 +26,7 @@ export default function SessionMenu() {
       <DropdownMenuContent>
         <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {userRol!.includes('ADMINISTRADOR') && (
+        {userRol === 'ADMINISTRADOR' && (
           <DropdownMenuItem>
             <Button>
               <Link href={`/admin/${user.businessId}`}>Panel de admin</Link>
@@ -45,9 +39,11 @@ export default function SessionMenu() {
           </Button>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Button variant={'link'} onClick={() => signOut()}>
-            Cerrar Sesion
-          </Button>
+          <form action={handleSignOut}>
+            <Button variant={'link'} type="submit">
+              Cerrar Sesion
+            </Button>
+          </form>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

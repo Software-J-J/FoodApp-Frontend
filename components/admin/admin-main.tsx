@@ -16,13 +16,6 @@ export default function AdminMain() {
   const params = useParams()
   const { data: session } = useSession()
 
-  // Esto genera un loop infinito
-  // if (session === null || session === undefined) {
-  //   redirect('/login')
-  // }
-
-  // const token = session?.accessToken
-
   const {
     shopData,
     isLoading: isLoadingShop,

@@ -16,10 +16,11 @@ import { calcTime } from '@/utils/calcTime'
 import useDetailOrder from '@/hooks/useDetailOrder'
 import LoadingComponent from '../shared/loading-component'
 import ErrorComponent from '../shared/error-component'
-import { token } from '@/utils/token'
-import { ItemOrder, OrderStatus } from '@/libs/types'
+import { ItemOrder } from '@/libs/types'
 import { useShopStore } from '@/store/shop/shop-store'
 import OrderDetailStatus from './order-detail-status'
+
+import { token } from '@/utils/token'
 
 export function DetailOrder({ orderId }: { orderId: string }) {
   const { order, isLoading, isError } = useDetailOrder(orderId, token)

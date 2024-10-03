@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react'
 
 export type DataBussiness = {
-  id: number
+  id: string
   name: string
   urlTag: string
   colors: string[]

@@ -41,8 +41,6 @@ type Props = {
 // FALTA AGREGAR QUE SOLO SE REVALIDEN LAS QUERYS SI HUBO ALGUNA MODIFICACION EN LA ORDER
 
 export default function OrderDetailStatus({ order }: Props) {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-
   const { status, paid, paidAt, stripeChargeId, updateAt, deliveryMethod } =
     order
 
@@ -67,6 +65,7 @@ export default function OrderDetailStatus({ order }: Props) {
   useEffect(() => {
     return () => {
       invalidateOrdersQuerys()
+      // Al cerrar el componente detail, se revalida la lista de ordenes
     }
   }, [])
 
@@ -78,17 +77,19 @@ export default function OrderDetailStatus({ order }: Props) {
           <Button
             variant={'accept'}
             size={'full'}
+            className="w-40"
             onClick={() => handleStatusButtons('ACCEPTED')}
           >
             Aceptar
           </Button>
-          <Button
-            variant={'deny'}
-            size={'full'}
-            onClick={() => handleStatusButtons('CANCELLED')}
+          <ConfirmModal
+            message="Quieres cancelar la orden?"
+            onConfirm={() => handleStatusButtons('CANCELLED')}
           >
-            Cancelar
-          </Button>
+            <Button variant={'deny'} size={'full'} className="w-40">
+              Cancelar
+            </Button>
+          </ConfirmModal>
         </div>
       </div>
     )

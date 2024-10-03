@@ -8,19 +8,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { Button } from '../ui/button'
+import CategoryForm from '../products/category-form'
 
-export default function CreateCategory() {
+export default function CreateCategory({
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) {
   return (
     <Dialog>
-      <DialogTrigger onClick={() => console.log('asd')}>
-        Crear categoria
-      </DialogTrigger>
-      <DialogContent>
+      <DialogTrigger className="w-full">{children}</DialogTrigger>
+      <DialogContent className="w-60 rounded-xl">
         <DialogHeader>
-          <DialogTitle>Nombre de categoria</DialogTitle>
-          <DialogDescription>
-            <input type="text" />
-          </DialogDescription>
+          <DialogTitle>Nueva categoria</DialogTitle>
+          <DialogDescription></DialogDescription>
+          {/* Formulario de creacion de categoria */}
+          <CategoryForm />
         </DialogHeader>
       </DialogContent>
     </Dialog>

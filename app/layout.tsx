@@ -2,8 +2,7 @@ import '@/components/shared/global.css'
 import type { Metadata } from 'next'
 import { inter } from '@/components/shared/fonts'
 
-import { getServerSession, Session } from 'next-auth'
-import { authOptions } from '@/libs/auth'
+import { auth } from '@/auth'
 
 import Navbar from '@/components/shared/navbar'
 import Providers from '@/providers/Providers'
@@ -22,12 +21,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session: Session | null = await getServerSession(authOptions)
+  const session = await auth()
   return (
     <html lang="en">
       <Providers>
         <body className={`${inter.className} antialiased`}>
-          <Navbar />
+          <Navbar session={session} />
           <main>{children}</main>
         </body>
       </Providers>

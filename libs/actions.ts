@@ -5,9 +5,9 @@ const sharedLink = 'http://localhost:3010/api'
 
 export async function getAllProducts(businessId: string) {
   try {
-    const response = await axios.get(`${sharedLink}/products/${businessId}`)
+    const products = await axios.get(`${sharedLink}/products/${businessId}`)
 
-    return response.data || []
+    return products.data || []
   } catch (error) {
     console.error('Error en actions al pedir los productos:', error)
   }
@@ -23,9 +23,9 @@ export async function getProductById(productId: string) {
   }
 }
 
-export async function getAllCategories() {
+export async function getAllCategories(businessId: string) {
   try {
-    const response = await axios.get(`${sharedLink}/category`)
+    const response = await axios.get(`${sharedLink}/category/${businessId}`)
 
     return response.data || []
   } catch (error) {
@@ -240,18 +240,15 @@ export async function updateBusiness({
   }
 }
 
-export async function updateProduct({
-  productId,
-  newData,
-  token,
-}: {
-  productId: string
-  newData: any
+export async function updateProduct(
+  productId: number,
+  newData: any,
   token: string
-}) {
+) {
   try {
     const updatedProduct = await axios.patch(
       `${sharedLink}/products/${productId}`,
+      newData,
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -348,5 +345,40 @@ export async function getOrderHistory(orderId: string, token: string) {
     return orderHistory
   } catch (error) {
     console.error('Error en actions al traer historial', error)
+  }
+}
+
+export async function getProductsByCategory(categoryId: string) {
+  try {
+    const categoryArray = await axios.get(
+      `${sharedLink}/category/id/${categoryId}`
+    )
+
+    return categoryArray.data
+  } catch (error) {
+    console.error(
+      'Error en actions al pedir los productos por categoria:',
+      error
+    )
+  }
+}
+
+export async function getAllEmployees(businessId: string, token: string) {
+  try {
+    const employeeList = await axios.get(
+      `${sharedLink}/auth/a63a5bfa-cd96-4f6b-8972-f654ef14f617`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    )
+
+    return employeeList.data
+  } catch (error) {
+    console.error(
+      'Error en actions al pedir los employees del business:',
+      error
+    )
   }
 }
