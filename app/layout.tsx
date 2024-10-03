@@ -26,7 +26,7 @@ export default async function RootLayout({
     <html lang="en">
       <Providers>
         <body className={`${inter.className} antialiased`}>
-          <Navbar />
+          <Navbar session={session} />
           <main>{children}</main>
         </body>
       </Providers>

@@ -55,21 +55,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
-    authorized({ request: { nextUrl }, auth }) {
-      const isLoggedIn = !!auth?.user
+    // authorized({ request: { nextUrl }, auth }) {
+    //   const isLoggedIn = !!auth?.user
 
-      const { pathname } = nextUrl
+    //   const { pathname } = nextUrl
 
-      if (pathname.startsWith('/auth/signin')) {
-        if (isLoggedIn) {
-          // return Response.redirect(new URL('/', nextUrl))
-        }
+    // if (pathname.startsWith('/auth/signin')) {
+    //   if (isLoggedIn) {
+    //     return Response.redirect(new URL('/', nextUrl))
+    //   }
 
-        return true
-      }
+    //   return true
+    // }
 
-      return isLoggedIn
-    },
+    //   return isLoggedIn
+    // },
 
     jwt({ token, user, trigger, session }) {
       if (user) {
