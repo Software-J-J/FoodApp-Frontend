@@ -3,7 +3,6 @@
 import { signIn, signOut } from '@/auth'
 import { signUpSchema } from '@/lib/zod'
 import { AuthError } from 'next-auth'
-import bcryptjs from 'bcryptjs'
 import axios from 'axios'
 
 const sharedLink = 'http://localhost:3010/api'

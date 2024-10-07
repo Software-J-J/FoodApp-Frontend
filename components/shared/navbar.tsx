@@ -1,15 +1,22 @@
 'use client'
 
-import { PediloLogoNav } from './pedilo-logo'
-import SessionMenu from './session-menu'
-import { Button } from './button'
+import { PediloLogoNav } from '@/components/shared/pedilo-logo'
+import SessionMenu from '@/components/shared/session-menu'
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { Session } from 'next-auth'
+import { usePathname } from 'next/navigation'
+import { checkAdminPath } from '@/utils/checkPaths'
+import AdminSideBar from '@/components/admin/admin-sidebar'
 
-export default function Navbar({ session }: { session: any }) {
+export default function Navbar({ session }: { session: Session | null }) {
+  const pathname = usePathname()
+  console.log(session)
+
   return (
     <nav className="w-full h-14 border-b-2 flex items-center justify-between">
       <div className="w-1/3">
-        {/* {checkAdminPath(pathname) && <AdminSideBar />} */}
+        {checkAdminPath(pathname) && <AdminSideBar />}
       </div>
       <div>
         <PediloLogoNav />

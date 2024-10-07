@@ -9,9 +9,17 @@ declare module 'next-auth' {
     id: string
     roles: UserRoles[]
     businessId?: string
+    accessToken: string
   }
   interface Session {
-    user: User
+    accessToken?: string
+    user: {
+      id: string
+      name: string
+      email: string
+      roles: UserRoles[]
+      businessId?: string
+    }
   }
 }
 

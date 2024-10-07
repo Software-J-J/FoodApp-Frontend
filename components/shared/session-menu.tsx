@@ -12,7 +12,8 @@ import { useUserStore } from '@/store/user/user-store'
 import { handleSignOut } from '@/actions/authActions'
 
 export default function SessionMenu({ user }: { user: any }) {
-  const userRol = user?.roles[0]
+  const userRol = user?.roles || 'ADMINISTRADOR'
+  console.log(user)
 
   if (user === null || user === undefined) {
     return <p>Error getting user</p>
